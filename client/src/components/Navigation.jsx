@@ -37,23 +37,15 @@ const Navigation = () => {
     };
   }, [toggle]);
 
-  const navItems = [
-    { name: "Home", href: "#hero" },
-    { name: "About", href: "#about" },
-    { name: "Experience", href: "#experience" },
-    { name: "Projects", href: "#projects" },
-    { name: "Contact", href: "#contact" },
-  ];
-
   const quickLinkItems = [
-    { name: "Books and Journals by me", href: "#books", icon: <BookOpen /> },
-    { name: `Free gift for you`, href: "#gift", icon: <Heart /> },
-    { name: "Podcast", href: "#podcast", icon: <Mic /> },
-    { name: "Amazon Storefront", href: "#amazon", icon: <ShoppingBag /> },
+    { name: "Books and Journals by me", href: "https://www.amazon.ca/shop/bookescape_/list/3PDNUMMTE0PL6?ref_=cm_sw_r_apann_aipsflist_H4V2XXVECVSZ2MTY13RG&language=en_US", icon: <BookOpen /> },
+    { name: `Free gift for you`, href: "#", icon: <Heart /> },
+    { name: "Podcast", href: "https://open.spotify.com/show/02zFg2ejkXs1XHBo6teu5n", icon: <Mic /> },
+    { name: "Amazon Storefront", href: "https://www.amazon.ca/shop/bookescape_?ref_=cm_sw_r_cp_mwn_aipsfshop_aipsfbookescape__PBB131SY1HEHXB4D7YG2_1&language=en_US", icon: <ShoppingBag /> },
     { name: "Blog", href: "#blog", icon: <PenTool /> },
     { name: "Newsletter", href: "#newsletter", icon: <Mail /> },
-    { name: "My Wishlist", href: "#wishlist", icon: <List /> },
-    { name: "My Paypal", href: "#paypal", icon: <CreditCard /> },
+    { name: "My Wishlist", href: "https://www.amazon.ca/hz/wishlist/ls/3S2LVE1XECZ46?ref_=wl_share", icon: <List /> },
+    { name: "My Paypal", href: "https://www.paypal.com/paypalme/NehalPatel64", icon: <CreditCard /> },
   ];
 
   const handleNavClick = () => {
@@ -84,6 +76,7 @@ const Navigation = () => {
                 <a
                   key={item.name}
                   href={item.href}
+                  target="_blank"
                   className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200 relative group"
                 >
                   {item.name}
@@ -194,7 +187,7 @@ const Navigation = () => {
                   </h3>
                   <div className="space-y-2">
                     <a
-                      href="#"
+                      href="https://www.youtube.com/@nehalpatelishere"
                       className="block hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                     >
                       Youtube

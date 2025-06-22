@@ -14,7 +14,6 @@
           </div>
   
           <div className="max-w-4xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-12">
               {/* Contact Form */}
               <div className="bg-white dark:bg-gray-700 rounded-2xl p-8 shadow-xl">
                 <form className="space-y-6">
@@ -70,7 +69,6 @@
                   </button>
                 </form>
               </div>
-            </div>
           </div>
         </div>
       </section>
