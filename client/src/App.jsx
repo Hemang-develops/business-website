@@ -12,6 +12,7 @@ function App() {
         <Route path="/super-admin-418" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/buy" element={<Buy />} />
+        <Route path="/buy/:productId" element={<Buy />} />
         <Route path="/" element={<Index />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />

@@ -1,3 +1,5 @@
+import { offeringSupportOptions } from "../data/offerings";
+
 const Contact = () => {
   const contactMethods = [
     {
@@ -17,19 +19,7 @@ const Contact = () => {
     },
   ];
 
-  const supportOptions = [
-    "Email Coaching With Me",
-    "Coaching With Me via Audio Call",
-    "Coaching With Me (Four Audio Calls)",
-    "Personalised Meditation",
-    "Manifest Your Specific Person (SP Rampage Meditation)",
-    "Quantum Jump into Your Dream Reality Meditation",
-    "Removing Trauma Blocks Meditation",
-    "Inner Child Healing Meditation",
-    "Aphrodite’s Kiss of Beauty Ritual",
-    "SP Rampage Ebook",
-    "Custom collaboration",
-  ];
+  const supportOptions = [...offeringSupportOptions, "Custom collaboration"];
 
   return (
     <section id="contact" className="bg-gray-950 py-20 text-white">
