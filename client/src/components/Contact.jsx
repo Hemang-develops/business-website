@@ -17,6 +17,20 @@ const Contact = () => {
     },
   ];
 
+  const supportOptions = [
+    "Email Coaching (Five-email sequence)",
+    "Single Audio Call Coaching",
+    "Four Audio Call Coaching Package",
+    "Personalised Meditation",
+    "SP Rampage / Meditation",
+    "Quantum Jump to Dream Reality Meditation",
+    "Removing Blocks of Trauma Meditation",
+    "Inner Child Healing Meditation",
+    "Beauty Ritual",
+    "SP Rampage Ebook",
+    "Custom collaboration",
+  ];
+
   return (
     <section id="contact" className="bg-gray-950 py-20 text-white">
       <div className="mx-auto max-w-5xl px-6">
@@ -90,11 +104,15 @@ const Contact = () => {
                 <select
                   name="support"
                   className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-base text-gray-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
+                  defaultValue=""
+                  required
                 >
-                  <option>1:1 Mentorship</option>
-                  <option>Audio/Voxer Coaching</option>
-                  <option>Group Activation Circles</option>
-                  <option>Custom collaboration</option>
+                  <option value="" disabled>
+                    Select the offering you are interested in
+                  </option>
+                  {supportOptions.map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
                 </select>
               </div>
               <div>

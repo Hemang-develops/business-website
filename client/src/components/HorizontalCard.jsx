@@ -1,104 +1,115 @@
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
 
-function HorizontalCard({ 
-  image, 
+function HorizontalCard({
+  image,
   imageAlt = "card-image",
-  title, 
-  subtitle, 
-  description, 
-  price, 
+  title,
+  subtitle,
+  description,
+  price,
   currency = "$",
   alternativeCurrency = "INR",
   alternativePrice,
   buttonText = "Book here",
   buttonLink = "#",
-  maxDescriptionLength = 120 
+  maxDescriptionLength = 120,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  
+
   const shouldTruncate = description && description.length > maxDescriptionLength;
-  const displayDescription = shouldTruncate && !isExpanded 
-    ? description.slice(0, maxDescriptionLength) + "..."
-    : description;
+  const displayDescription =
+    shouldTruncate && !isExpanded ? `${description.slice(0, maxDescriptionLength)}...` : description;
 
   const toggleExpanded = () => setIsExpanded(!isExpanded);
+  const isExternalLink = buttonLink.startsWith("http");
+  const isAnchorLink = buttonLink.startsWith("#");
+
+  const handleAnchorClick = (event) => {
+    if (isAnchorLink) {
+      event.preventDefault();
+      const target = document.querySelector(buttonLink);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
 
   return (
-    <div className="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row min-h-[280px] transition-all duration-300 ease-in-out">
-      {/* Image Section */}
-      <div className="w-full md:w-2/5 shrink-0 h-48 md:h-auto">
+    <div className="flex w-full max-w-4xl min-h-[280px] flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 ease-in-out md:flex-row dark:bg-gray-800">
+      <div className="h-48 w-full shrink-0 md:h-auto md:w-2/5">
         <div className="h-full w-full overflow-hidden">
           <img
             src={image}
             alt={imageAlt}
             className="h-full w-full object-cover object-center"
-            style={{ minHeight: '100%', maxHeight: '100%' }}
+            style={{ minHeight: "100%", maxHeight: "100%" }}
           />
         </div>
       </div>
-      
-      {/* Content Section */}
-      <div className="flex flex-col justify-between flex-1 p-4 md:p-6 min-h-[200px]">
+
+      <div className="flex flex-1 min-h-[200px] flex-col justify-between p-4 md:p-6">
         <div className="flex-1">
-          {/* Title */}
-          <h3 className="text-lg md:text-xl font-bold text-gray-800 mb-2 line-clamp-2 leading-tight">
-            {title}
-          </h3>
-          
-          {/* Subtitle */}
+          <h3 className="mb-2 text-lg font-bold leading-tight text-gray-800 md:text-xl dark:text-white">{title}</h3>
+
           {subtitle && (
-            <p className="text-gray-600 mb-2 md:mb-3 font-semibold text-xs md:text-sm line-clamp-1">
-              {subtitle}
-            </p>
+            <p className="mb-2 text-xs font-semibold text-gray-600 md:mb-3 md:text-sm dark:text-gray-300">{subtitle}</p>
           )}
-          
-          {/* Description with truncation */}
+
           {description && (
             <div className="mb-3 md:mb-4">
-              <p className="text-gray-600 font-medium text-xs md:text-sm leading-relaxed">
+              <p className="text-xs font-medium leading-relaxed text-gray-600 md:text-sm dark:text-gray-200">
                 {displayDescription}
               </p>
-              
+
               {shouldTruncate && (
                 <button
                   onClick={toggleExpanded}
-                  className="flex items-center gap-1 mt-2 text-blue-600 hover:text-blue-800 text-xs md:text-sm font-medium transition-colors"
+                  className="mt-2 flex items-center gap-1 text-xs font-medium text-blue-600 transition-colors hover:text-blue-800 md:text-sm"
                 >
                   {isExpanded ? (
                     <>
-                      Show less <ChevronUp className="w-3 h-3 md:w-4 md:h-4" />
+                      Show less <ChevronUp className="h-3 w-3 md:h-4 md:w-4" />
                     </>
                   ) : (
                     <>
-                      Show more <ChevronDown className="w-3 h-3 md:w-4 md:h-4" />
+                      Show more <ChevronDown className="h-3 w-3 md:h-4 md:w-4" />
                     </>
                   )}
                 </button>
               )}
             </div>
           )}
-          
-          {/* Price */}
+
           {price && (
-            <div className="mb-3 md:mb-4 flex">
-              <span className="font-semibold text-base md:text-lg text-gray-800">
+            <div className="mb-3 flex text-base font-semibold text-gray-800 md:mb-4 md:text-lg dark:text-white">
+              <span>
                 {currency} {price}
               </span>
-              {alternativePrice && (<span className="font-semibold text-base md:text-lg text-gray-800"> &nbsp;or {alternativeCurrency} {alternativePrice}</span>)}
+              {alternativePrice && (
+                <span className="ml-2">
+                  or {alternativeCurrency} {alternativePrice}
+                </span>
+              )}
             </div>
           )}
         </div>
-        
-        {/* Action Button */}
+
         <div className="mt-auto">
-          <a href={buttonLink} className="inline-block">
-            <button className="flex items-center gap-2 p-2 font-medium text-blue-600 hover:text-blue-800 transition-colors bg-transparent border-none cursor-pointer text-sm md:text-base">
-              {buttonText}
-              <ArrowRight className="w-3 h-3 md:w-4 md:h-4" />
-            </button>
-          </a>
+          {buttonLink && (
+            <a
+              href={buttonLink}
+              onClick={handleAnchorClick}
+              target={isExternalLink ? "_blank" : undefined}
+              rel={isExternalLink ? "noopener noreferrer" : undefined}
+              className="inline-block"
+            >
+              <button className="flex items-center gap-2 border-none bg-transparent p-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 md:text-base dark:text-teal-300 dark:hover:text-teal-200">
+                {buttonText}
+                <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
+              </button>
+            </a>
+          )}
         </div>
       </div>
     </div>
