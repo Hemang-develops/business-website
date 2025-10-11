@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ArrowRight, ChevronDown, ChevronUp } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function HorizontalCard({
   image,
@@ -22,8 +23,10 @@ function HorizontalCard({
     shouldTruncate && !isExpanded ? `${description.slice(0, maxDescriptionLength)}...` : description;
 
   const toggleExpanded = () => setIsExpanded(!isExpanded);
-  const isExternalLink = buttonLink.startsWith("http");
+  const isExternalLink =
+    buttonLink.startsWith("http") || buttonLink.startsWith("mailto:");
   const isAnchorLink = buttonLink.startsWith("#");
+  const isInternalRoute = !isAnchorLink && !isExternalLink && buttonLink.startsWith("/");
 
   const handleAnchorClick = (event) => {
     if (isAnchorLink) {
@@ -97,18 +100,29 @@ function HorizontalCard({
 
         <div className="mt-auto">
           {buttonLink && (
-            <a
-              href={buttonLink}
-              onClick={handleAnchorClick}
-              target={isExternalLink ? "_blank" : undefined}
-              rel={isExternalLink ? "noopener noreferrer" : undefined}
-              className="inline-block"
-            >
-              <button className="flex items-center gap-2 border-none bg-transparent p-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 md:text-base dark:text-teal-300 dark:hover:text-teal-200">
-                {buttonText}
-                <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
-              </button>
-            </a>
+            <>
+              {isInternalRoute ? (
+                <Link to={buttonLink} className="inline-block">
+                  <button className="flex items-center gap-2 border-none bg-transparent p-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 md:text-base dark:text-teal-300 dark:hover:text-teal-200">
+                    {buttonText}
+                    <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
+                  </button>
+                </Link>
+              ) : (
+                <a
+                  href={buttonLink}
+                  onClick={handleAnchorClick}
+                  target={isExternalLink ? "_blank" : undefined}
+                  rel={isExternalLink ? "noopener noreferrer" : undefined}
+                  className="inline-block"
+                >
+                  <button className="flex items-center gap-2 border-none bg-transparent p-2 text-sm font-medium text-blue-600 transition-colors hover:text-blue-800 md:text-base dark:text-teal-300 dark:hover:text-teal-200">
+                    {buttonText}
+                    <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
+                  </button>
+                </a>
+              )}
+            </>
           )}
         </div>
       </div>

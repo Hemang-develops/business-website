@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import About from "../components/About";
 import CTA from "../components/CTA";
 import Contact from "../components/Contact";
@@ -13,6 +15,18 @@ import { useSmoothScroll } from "../hooks/useSmoothScroll";
 
 const Index = () => {
   useSmoothScroll();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const target = document.querySelector(location.hash);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: "smooth" });
+        }, 200);
+      }
+    }
+  }, [location]);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gray-950 text-white">

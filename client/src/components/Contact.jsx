@@ -18,15 +18,15 @@ const Contact = () => {
   ];
 
   const supportOptions = [
-    "Email Coaching (Five-email sequence)",
-    "Single Audio Call Coaching",
-    "Four Audio Call Coaching Package",
+    "Email Coaching With Me",
+    "Coaching With Me via Audio Call",
+    "Coaching With Me (Four Audio Calls)",
     "Personalised Meditation",
-    "SP Rampage / Meditation",
-    "Quantum Jump to Dream Reality Meditation",
-    "Removing Blocks of Trauma Meditation",
+    "Manifest Your Specific Person (SP Rampage Meditation)",
+    "Quantum Jump into Your Dream Reality Meditation",
+    "Removing Trauma Blocks Meditation",
     "Inner Child Healing Meditation",
-    "Beauty Ritual",
+    "Aphrodite’s Kiss of Beauty Ritual",
     "SP Rampage Ebook",
     "Custom collaboration",
   ];

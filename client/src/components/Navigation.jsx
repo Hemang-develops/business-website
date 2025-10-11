@@ -9,6 +9,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const primaryLinks = [
   { label: "About", href: "#about" },
@@ -17,6 +18,7 @@ const primaryLinks = [
   { label: "Testimonials", href: "#testimonials" },
   { label: "Resources", href: "#resources" },
   { label: "Contact", href: "#contact" },
+  { label: "Buy", href: "/buy" },
 ];
 
 const quickLinkGroups = {
@@ -85,6 +87,8 @@ const quickLinkGroups = {
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -99,6 +103,31 @@ const Navigation = () => {
     };
   }, [toggle]);
 
+  const handleAnchorNavigation = (event, href, closeMenu = false) => {
+    event.preventDefault();
+
+    if (location.pathname !== "/") {
+      navigate({ pathname: "/", hash: href });
+    } else {
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    if (closeMenu) {
+      setToggle(false);
+    }
+  };
+
+  const handleQuickLinkNavigation = (event, href, closeMenu = false) => {
+    if (href.startsWith("#")) {
+      handleAnchorNavigation(event, href, closeMenu);
+    } else if (closeMenu) {
+      setToggle(false);
+    }
+  };
+
   const allQuickLinks = Object.values(quickLinkGroups).flatMap((group) => group.items);
 
   return (
@@ -111,20 +140,41 @@ const Navigation = () => {
         }`}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <a href="#hero" className="text-2xl font-bold text-white">
+          <Link to="/" className="text-2xl font-bold text-white" onClick={() => setToggle(false)}>
             HF11
-          </a>
+          </Link>
 
           <div className="hidden items-center gap-8 md:flex">
-            {primaryLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm font-medium uppercase tracking-[0.25em] text-white/70 transition-colors hover:text-teal-200"
-              >
-                {link.label}
-              </a>
-            ))}
+            {primaryLinks.map((link) => {
+              const classes =
+                "text-sm font-medium uppercase tracking-[0.25em] text-white/70 transition-colors hover:text-teal-200";
+              if (link.href.startsWith("#")) {
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={(event) => handleAnchorNavigation(event, link.href)}
+                    className={classes}
+                  >
+                    {link.label}
+                  </a>
+                );
+              }
+
+              if (link.href.startsWith("/")) {
+                return (
+                  <Link key={link.label} to={link.href} className={classes}>
+                    {link.label}
+                  </Link>
+                );
+              }
+
+              return (
+                <a key={link.label} href={link.href} className={classes}>
+                  {link.label}
+                </a>
+              );
+            })}
             <div className="relative group">
               <button className="flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-teal-300 hover:text-teal-200">
                 Quick Links
@@ -133,18 +183,37 @@ const Navigation = () => {
                 </svg>
               </button>
               <div className="invisible absolute right-0 top-full mt-2 w-72 divide-y divide-white/5 rounded-3xl border border-white/10 bg-gray-950/95 p-4 opacity-0 shadow-2xl backdrop-blur transition-all duration-200 group-hover:visible group-hover:opacity-100">
-                {allQuickLinks.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    target={item.href.startsWith("http") ? "_blank" : undefined}
-                    rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/80 transition-colors hover:bg-white/5 hover:text-teal-200"
-                  >
-                    <span className="text-white/50">{item.icon}</span>
-                    <span>{item.name}</span>
-                  </a>
-                ))}
+                {allQuickLinks.map((item) => {
+                  const isExternal = item.href.startsWith("http");
+                  const isAnchor = item.href.startsWith("#");
+
+                  if (isAnchor) {
+                    return (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        onClick={(event) => handleQuickLinkNavigation(event, item.href)}
+                        className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/80 transition-colors hover:bg-white/5 hover:text-teal-200"
+                      >
+                        <span className="text-white/50">{item.icon}</span>
+                        <span>{item.name}</span>
+                      </a>
+                    );
+                  }
+
+                  return (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      target={isExternal ? "_blank" : undefined}
+                      rel={isExternal ? "noopener noreferrer" : undefined}
+                      className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/80 transition-colors hover:bg-white/5 hover:text-teal-200"
+                    >
+                      <span className="text-white/50">{item.icon}</span>
+                      <span>{item.name}</span>
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -178,16 +247,47 @@ const Navigation = () => {
             <button onClick={() => setToggle(false)} className="text-sm text-white/60">Close</button>
           </div>
           <div className="space-y-6">
-            {primaryLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={() => setToggle(false)}
-                className="block text-base font-medium uppercase tracking-[0.3em] text-white/80 transition-colors hover:text-teal-200"
-              >
-                {link.label}
-              </a>
-            ))}
+            {primaryLinks.map((link) => {
+              const classes =
+                "block text-base font-medium uppercase tracking-[0.3em] text-white/80 transition-colors hover:text-teal-200";
+
+              if (link.href.startsWith("#")) {
+                return (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={(event) => handleAnchorNavigation(event, link.href, true)}
+                    className={classes}
+                  >
+                    {link.label}
+                  </a>
+                );
+              }
+
+              if (link.href.startsWith("/")) {
+                return (
+                  <Link
+                    key={link.label}
+                    to={link.href}
+                    onClick={() => setToggle(false)}
+                    className={classes}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              }
+
+              return (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={() => setToggle(false)}
+                  className={classes}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
           </div>
 
           <div className="space-y-8">
@@ -197,19 +297,38 @@ const Navigation = () => {
                   {group.title}
                 </h3>
                 <div className="mt-3 space-y-3">
-                  {group.items.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      target={item.href.startsWith("http") ? "_blank" : undefined}
-                      rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      onClick={() => setToggle(false)}
-                      className="flex items-center gap-3 rounded-2xl border border-white/10 px-4 py-3 text-sm text-white/80 transition-colors hover:border-teal-300 hover:text-teal-200"
-                    >
-                      <span className="text-white/50">{item.icon}</span>
-                      <span>{item.name}</span>
-                    </a>
-                  ))}
+                  {group.items.map((item) => {
+                    const isExternal = item.href.startsWith("http");
+                    const isAnchor = item.href.startsWith("#");
+
+                    if (isAnchor) {
+                      return (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          onClick={(event) => handleQuickLinkNavigation(event, item.href, true)}
+                          className="flex items-center gap-3 rounded-2xl border border-white/10 px-4 py-3 text-sm text-white/80 transition-colors hover:border-teal-300 hover:text-teal-200"
+                        >
+                          <span className="text-white/50">{item.icon}</span>
+                          <span>{item.name}</span>
+                        </a>
+                      );
+                    }
+
+                    return (
+                      <a
+                        key={item.name}
+                        href={item.href}
+                        target={isExternal ? "_blank" : undefined}
+                        rel={isExternal ? "noopener noreferrer" : undefined}
+                        onClick={() => setToggle(false)}
+                        className="flex items-center gap-3 rounded-2xl border border-white/10 px-4 py-3 text-sm text-white/80 transition-colors hover:border-teal-300 hover:text-teal-200"
+                      >
+                        <span className="text-white/50">{item.icon}</span>
+                        <span>{item.name}</span>
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
             ))}
