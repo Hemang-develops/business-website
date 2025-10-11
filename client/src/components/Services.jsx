@@ -1,31 +1,67 @@
-import { coachingWithMe } from "../../utils";
-import HorizontalCard from "./HorizontalCard";
+const services = [
+  {
+    title: "Somatic & Energetic Practices",
+    description:
+      "Breathwork, tapping, and body-led rituals that keep your nervous system anchored while you quantum leap.",
+    icon: "🌀",
+  },
+  {
+    title: "Manifestation Frameworks",
+    description:
+      "Signature High Frequencies 11 methods that blend neuroscience with spiritual teachings for tangible shifts.",
+    icon: "✨",
+  },
+  {
+    title: "Lifetime-Ready Resources",
+    description:
+      "Journals, guided meditations, and replay libraries you can return to whenever you need a frequency boost.",
+    icon: "📚",
+  },
+  {
+    title: "Community & Accountability",
+    description:
+      "Monthly circles, private Voxer channels, and global members who are walking the same path by your side.",
+    icon: "🤝",
+  },
+];
 
 const Services = () => {
   return (
     <section
-      id="about"
-      className="min-h-screen py-20 bg-gray-50 bg-gradient-to-br from-teal-50 to-indigo-500 dark:from-gray-900 dark:to-indigo-900"
+      id="services"
+      className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-rose-500 py-20 text-white"
     >
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
-            Services
+      <div className="absolute inset-0 opacity-20 mix-blend-soft-light">
+        <div className="absolute -left-24 top-10 h-56 w-56 rounded-full bg-white/50 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-48 w-48 rounded-full bg-pink-200/60 blur-3xl" />
+      </div>
+      <div className="relative mx-auto max-w-6xl px-6">
+        <div className="text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-white/70">
+            The experience
+          </p>
+          <h2 className="mt-4 text-4xl font-bold sm:text-5xl">
+            What makes High Frequencies 11 different.
           </h2>
-          <div className="w-24 h-1 bg-blue-600 mx-auto"></div>
+          <p className="mx-auto mt-6 max-w-3xl text-lg text-white/80">
+            These pillars define every session, program, and resource we create. You will be seen, supported, and stretched into your next evolution.
+          </p>
         </div>
 
-        <HorizontalCard
-          image={coachingWithMe}
-          title="Coaching With Me via Audio Call"
-          subtitle="Personal Coaching (One coaching call)"
-          //   155 $ or 14,000 INR
-          price="155"
-          currency="$"
-          alternativePrice="14000"
-          alternativeCurrency="INR"
-          buttonLink="#coaching"
-        />
+        <div className="mt-16 grid gap-8 md:grid-cols-2">
+          {services.map((service) => (
+            <div
+              key={service.title}
+              className="group rounded-3xl bg-white/10 p-8 shadow-xl backdrop-blur transition-transform duration-300 hover:-translate-y-2"
+            >
+              <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-2xl">
+                {service.icon}
+              </span>
+              <h3 className="mt-6 text-2xl font-semibold">{service.title}</h3>
+              <p className="mt-4 text-lg text-white/80">{service.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
