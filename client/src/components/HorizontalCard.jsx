@@ -9,6 +9,7 @@ function HorizontalCard({
   subtitle,
   description,
   price,
+  priceLabel,
   currency = "$",
   alternativeCurrency = "INR",
   alternativePrice,
@@ -84,15 +85,21 @@ function HorizontalCard({
             </div>
           )}
 
-          {price && (
-            <div className="mb-3 flex text-base font-semibold text-gray-800 md:mb-4 md:text-lg dark:text-white">
-              <span>
-                {currency} {price}
-              </span>
-              {alternativePrice && (
-                <span className="ml-2">
-                  or {alternativeCurrency} {alternativePrice}
-                </span>
+          {(priceLabel || price) && (
+            <div className="mb-3 flex flex-wrap items-center gap-2 text-base font-semibold text-gray-800 md:mb-4 md:text-lg dark:text-white">
+              {priceLabel ? (
+                <span>{priceLabel}</span>
+              ) : (
+                <>
+                  <span>
+                    {currency} {price}
+                  </span>
+                  {alternativePrice && (
+                    <span className="ml-2">
+                      or {alternativeCurrency} {alternativePrice}
+                    </span>
+                  )}
+                </>
               )}
             </div>
           )}

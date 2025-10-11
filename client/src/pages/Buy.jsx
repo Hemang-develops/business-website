@@ -5,51 +5,51 @@ import Navigation from "../components/Navigation";
 import { buySections, offeringsIndex } from "../data/offerings";
 import { useSmoothScroll } from "../hooks/useSmoothScroll";
 
-const isExternalLink = (link) => typeof link === "string" && /^(https?:|upi:)/.test(link);
+const isExternalLink = (link) => typeof link === "string" && /^(https?:|upi:|mailto:)/.test(link);
 
-const PaymentLinkButton = ({ href, label }) => {
-  if (!href) {
+const PaymentLinkButton = ({ link }) => {
+  if (!link?.url) {
     return null;
   }
 
-  const external = isExternalLink(href);
+  const external = isExternalLink(link.url);
 
   return (
     <a
-      href={href}
+      href={link.url}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
       className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-300 px-6 py-3 text-sm font-semibold text-gray-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-200"
     >
-      {label}
+      {link.label}
       <ArrowRight className="h-4 w-4" />
     </a>
   );
 };
 
 const PaymentSection = ({ item }) => {
-  const usdLink = item.paymentLinks?.usd;
-  const inrLink = item.paymentLinks?.inr;
-  const hasPaymentGateway = Boolean(usdLink || inrLink);
+  const paymentLinkEntries = Object.values(item.paymentLinks || {}).filter((link) => Boolean(link?.url));
+  const hasPaymentGateway = paymentLinkEntries.length > 0;
   const backupLink = item.purchase?.link || item.actionLink;
   const backupLabel = item.purchase?.label || item.ctaLabel || "Email for support";
+  const manualInstructions = item.manualInstructions || [];
+  const paymentMethods = item.paymentMethods || [];
+  const legalNotes = item.legalNotes || [];
+  const priceDetails = item.priceDetails || [];
 
   return (
-    <section className="mt-12 grid gap-6 rounded-3xl border border-white/5 bg-white/5 p-8 text-white/90 shadow-2xl backdrop-blur lg:grid-cols-[2fr,1fr]">
+    <section className="space-y-8 rounded-3xl border border-white/10 bg-white/5 p-8 text-white/90 shadow-2xl backdrop-blur">
       <div className="space-y-4">
         <h3 className="text-xl font-semibold text-white">Checkout</h3>
         {hasPaymentGateway ? (
           <>
             <p className="text-sm text-white/70">
-              Choose the currency that serves you best. Payments open in a secure gateway window and are processed immediately.
+              Choose the currency that serves you best. Payments open in a secure, hosted gateway and process instantly.
             </p>
             <div className="flex flex-wrap gap-3">
-              {usdLink && (
-                <PaymentLinkButton href={usdLink} label={`Pay $${item.price?.usd ?? ""} USD`} />
-              )}
-              {inrLink && (
-                <PaymentLinkButton href={inrLink} label={`Pay ₹${item.price?.inr ?? ""} INR`} />
-              )}
+              {paymentLinkEntries.map((link) => (
+                <PaymentLinkButton key={link.url} link={link} />
+              ))}
             </div>
           </>
         ) : (
@@ -57,28 +57,62 @@ const PaymentSection = ({ item }) => {
             Secure payment links for this offering are being finalised. Send a quick note and you’ll receive a private checkout link immediately.
           </p>
         )}
+        {paymentMethods.length ? (
+          <div className="pt-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-teal-200/80">Pay with</p>
+            <ul className="mt-3 flex flex-wrap gap-2 text-sm text-white/70">
+              {paymentMethods.map((method) => (
+                <li key={method} className="rounded-full border border-white/10 bg-white/10 px-3 py-1">
+                  {method}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {item.secureNote && <p className="text-xs text-white/60">{item.secureNote}</p>}
       </div>
-      <div className="space-y-4 rounded-2xl border border-white/10 bg-white/10 p-6">
-        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-teal-200/80">Need a different flow?</p>
-        {hasPaymentGateway ? (
-          <p className="text-sm text-white/70">
-            Prefer a manual invoice or a different currency? Reach out and we’ll arrange it for you within 24 hours.
-          </p>
-        ) : (
-          <p className="text-sm text-white/70">
-            We’ll send you the payment link manually and make sure you have everything you need within a few minutes.
-          </p>
-        )}
-        {backupLink && (
-          <a
-            href={backupLink}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-teal-200 transition hover:text-teal-100"
-          >
-            {backupLabel}
-            <ArrowRight className="h-4 w-4" />
-          </a>
-        )}
-      </div>
+
+      {priceDetails.length ? (
+        <div className="space-y-3 rounded-2xl border border-white/10 bg-white/10 p-6">
+          <h4 className="text-sm font-semibold uppercase tracking-[0.3em] text-teal-200/80">Price details</h4>
+          <ul className="space-y-2 text-sm text-white/80">
+            {priceDetails.map((detail) => (
+              <li key={`${detail.label}-${detail.amount}`} className="flex items-center justify-between gap-3">
+                <span>{detail.label}</span>
+                <span className="font-semibold">{detail.amount}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
+      {manualInstructions.length ? (
+        <div className="space-y-3 rounded-2xl border border-white/10 bg-white/10 p-6 text-sm text-white/75">
+          <h4 className="text-sm font-semibold uppercase tracking-[0.3em] text-teal-200/80">Need a different flow?</h4>
+          <ul className="space-y-2 leading-relaxed">
+            {manualInstructions.map((instruction) => (
+              <li key={instruction}>{instruction}</li>
+            ))}
+          </ul>
+          {backupLink && (
+            <a
+              href={backupLink}
+              className="inline-flex items-center gap-2 text-sm font-semibold text-teal-200 transition hover:text-teal-100"
+            >
+              {backupLabel}
+              <ArrowRight className="h-4 w-4" />
+            </a>
+          )}
+        </div>
+      ) : null}
+
+      {legalNotes.length ? (
+        <div className="space-y-2 rounded-2xl border border-white/10 bg-white/10 p-6 text-xs leading-relaxed text-white/60">
+          {legalNotes.map((note) => (
+            <p key={note}>{note}</p>
+          ))}
+        </div>
+      ) : null}
     </section>
   );
 };
@@ -89,10 +123,10 @@ const DetailSection = ({ detailsSections, closingNotes }) => {
   }
 
   return (
-    <section className="mt-12 space-y-8">
+    <section className="space-y-8">
       {detailsSections?.map((section) => (
-        <div key={section.heading} className="space-y-4 rounded-3xl border border-white/5 bg-white/5 p-8 backdrop-blur">
-          <h3 className="text-lg font-semibold text-white">✧ {section.heading}</h3>
+        <div key={section.heading} className="space-y-4 rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur">
+          <h3 className="text-lg font-semibold text-white">{section.heading}</h3>
           {section.description && <p className="text-base leading-relaxed text-white/75">{section.description}</p>}
           {section.items && (
             <ul className="space-y-3 text-sm leading-relaxed text-white/70">
@@ -137,6 +171,20 @@ const OfferHighlights = ({ item }) => {
   );
 };
 
+const SuccessStory = ({ successStory }) => {
+  if (!successStory) {
+    return null;
+  }
+
+  return (
+    <div className="space-y-4 rounded-3xl border border-white/10 bg-white/5 p-8 text-white/80">
+      <p className="text-sm font-semibold uppercase tracking-[0.3em] text-teal-200/80">{successStory.heading}</p>
+      <p className="text-lg leading-relaxed text-white/90">“{successStory.quote}”</p>
+      {successStory.author ? <p className="text-sm font-semibold text-white/60">{successStory.author}</p> : null}
+    </div>
+  );
+};
+
 const OfferCard = ({ item }) => (
   <article className="w-full rounded-3xl border border-white/10 bg-white/5 p-6 text-left shadow-2xl backdrop-blur transition hover:border-teal-300 hover:shadow-teal-500/20 sm:p-8">
     <div className="space-y-4">
@@ -147,9 +195,9 @@ const OfferCard = ({ item }) => (
             <p className="mt-1 text-sm font-medium uppercase tracking-[0.3em] text-teal-200/80">{item.subtitle}</p>
           )}
         </div>
-        {item.price && (
+        {(item.priceLabel || item.price) && (
           <span className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white/80">
-            ${item.price.usd} / ₹{item.price.inr}
+            {item.priceLabel || `$${item.price.usd} / ₹${item.price.inr}`}
           </span>
         )}
       </div>
@@ -212,13 +260,15 @@ const BuyListView = () => {
 
 const BuyDetailView = ({ item }) => {
   const { section } = offeringsIndex[item.id];
+  const sectionAnchor = section?.id ? `/buy#${section.id}` : "/buy";
+  const paymentLinkEntries = Object.values(item.paymentLinks || {}).filter((link) => Boolean(link?.url));
   return (
     <main className="relative z-10">
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-gray-950 to-black px-6 py-24">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(45,212,191,0.28),transparent_55%),radial-gradient(circle_at_bottom,_rgba(192,132,252,0.32),transparent_60%)]" />
         <div className="relative mx-auto flex max-w-5xl flex-col gap-6">
           <Link
-            to="/buy"
+            to={sectionAnchor}
             className="inline-flex items-center gap-2 self-start rounded-full border border-white/20 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/70 transition hover:border-teal-300 hover:text-teal-200"
           >
             <ArrowLeft className="h-4 w-4" /> Back to all offerings
@@ -228,42 +278,54 @@ const BuyDetailView = ({ item }) => {
           </span>
           <h1 className="text-4xl font-bold text-white sm:text-5xl">{item.title}</h1>
           <p className="max-w-3xl text-lg text-white/75">{item.longDescription || item.summary}</p>
-          <div className="mt-4 flex flex-wrap items-center gap-4 text-white/80">
-            {item.price?.usd && (
-              <span className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold">
-                USD ${item.price.usd}
-              </span>
-            )}
-            {item.price?.inr && (
-              <span className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold">
-                INR ₹{item.price.inr}
-              </span>
-            )}
-          </div>
+          {(item.priceLabel || item.price || paymentLinkEntries.length) && (
+            <div className="mt-4 flex flex-wrap items-center gap-4 text-white/80">
+              {item.priceLabel ? (
+                <span className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold">{item.priceLabel}</span>
+              ) : (
+                <>
+                  {item.price?.usd && (
+                    <span className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold">USD ${item.price.usd}</span>
+                  )}
+                  {item.price?.inr && (
+                    <span className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold">INR ₹{item.price.inr}</span>
+                  )}
+                </>
+              )}
+              {!item.priceLabel && !item.price && paymentLinkEntries.length ? (
+                <span className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold">
+                  Pricing shared after checkout selection
+                </span>
+              ) : null}
+            </div>
+          )}
           <OfferHighlights item={item} />
         </div>
       </section>
 
       <section className="bg-gray-950 px-6 pb-24 pt-12">
-        <div className="mx-auto max-w-4xl">
-          <PaymentSection item={item} />
-          <DetailSection detailsSections={item.detailsSections} closingNotes={item.closingNotes} />
+        <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr,1.1fr]">
+          <div className="space-y-8">
+            <SuccessStory successStory={item.successStory} />
+            <DetailSection detailsSections={item.detailsSections} closingNotes={item.closingNotes} />
+            {item.purchase && (
+              <div className="space-y-4 rounded-3xl border border-white/10 bg-white/5 p-8 text-white/80">
+                <h3 className="text-lg font-semibold text-white">Need help accessing your files?</h3>
+                <p className="text-sm leading-relaxed text-white/70">
+                  If the automated download doesn’t land in your inbox within a few minutes, tap the button below and we’ll resend it manually.
+                </p>
+                <a
+                  href={item.purchase.link}
+                  className="inline-flex items-center gap-2 rounded-full border border-teal-300/40 bg-teal-300/10 px-5 py-2 text-sm font-semibold text-teal-200 transition hover:border-teal-200 hover:bg-teal-300/20"
+                >
+                  {item.purchase.label}
+                  <ArrowRight className="h-4 w-4" />
+                </a>
+              </div>
+            )}
+          </div>
 
-          {item.purchase && (
-            <div className="mt-12 rounded-3xl border border-white/5 bg-white/5 p-8 text-white/75">
-              <h3 className="text-lg font-semibold text-white">Need help accessing your files?</h3>
-              <p className="mt-2 text-sm leading-relaxed">
-                If the automated download doesn’t land in your inbox within a few minutes, tap the button below and we’ll resend it manually.
-              </p>
-              <a
-                href={item.purchase.link}
-                className="mt-6 inline-flex items-center gap-2 rounded-full border border-teal-300/40 bg-teal-300/10 px-5 py-2 text-sm font-semibold text-teal-200 transition hover:border-teal-200 hover:bg-teal-300/20"
-              >
-                {item.purchase.label}
-                <ArrowRight className="h-4 w-4" />
-              </a>
-            </div>
-          )}
+          <PaymentSection item={item} />
         </div>
       </section>
     </main>
@@ -295,11 +357,7 @@ const Buy = () => {
   return (
     <div className="relative min-h-screen overflow-hidden bg-gray-950 text-white">
       <Navigation />
-      {isDetailRoute ? (
-        product ? <BuyDetailView item={product} /> : <UnknownProduct />
-      ) : (
-        <BuyListView key={location.key} />
-      )}
+      {isDetailRoute ? (product ? <BuyDetailView item={product} /> : <UnknownProduct />) : <BuyListView key={location.key} />}
       <Footer />
     </div>
   );

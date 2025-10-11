@@ -2,16 +2,16 @@ import HorizontalCard from "./HorizontalCard";
 
 const offeringGroups = [
   {
-    title: "Coaching Containers",
+    title: "One-on-one coaching",
     description:
-      "Intimate support designed to meet you where you are. Choose the cadence that best serves your manifestations and receive grounded, strategic guidance every step of the way.",
+      "Intimate support designed to meet you where you are. Choose the container that matches your rhythm and receive tailored strategy, affirmations, and energetic calibration.",
     items: [
       {
         image:
           "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80",
         imageAlt: "journal, coffee and laptop on table",
         title: "Email Coaching With Me",
-        subtitle: "Five Email Coaching",
+        subtitle: "Five email coaching",
         description:
           "Personalized affirmations or rampages, delivered according to your schedule with manifesting advice crafted just for you.",
         price: "250",
@@ -27,9 +27,9 @@ const offeringGroups = [
           "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=1200&q=80",
         imageAlt: "woman speaking on a phone call",
         title: "Coaching With Me via Audio Call",
-        subtitle: "Personal Coaching (One coaching call)",
+        subtitle: "Personal coaching (one call)",
         description:
-          "One audio call (1 hour) devoted to calibrating your energy, refining your self-concept, and anchoring a plan for the reality you are manifesting.",
+          "A devoted 60-minute audio call to calibrate your energy, refine your self-concept, and anchor a plan for the reality you are manifesting.",
         price: "155",
         currency: "$",
         alternativeCurrency: "INR",
@@ -54,13 +54,6 @@ const offeringGroups = [
         buttonText: "Book here",
         maxDescriptionLength: 240,
       },
-    ],
-  },
-  {
-    title: "Custom Meditations",
-    description:
-      "Hand-crafted energetic immersions that weave reiki, channelled energy, and hypnotic soundscapes so you can reprogram overnight and integrate results quickly.",
-    items: [
       {
         image:
           "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1200&q=80",
@@ -68,7 +61,7 @@ const offeringGroups = [
         title: "Personalised Meditation",
         subtitle: "Two desires crafted only for you",
         description:
-          "I will make this meditation only for you, layering energy cleansing affirmations, reiki, channeled energy, and high-frequency music you can loop overnight.",
+          "I’ll make this meditation only for you—layering energy cleansing affirmations, reiki, channeled energy, and high-frequency music you can loop overnight.",
         price: "250",
         currency: "$",
         alternativeCurrency: "INR",
@@ -81,26 +74,43 @@ const offeringGroups = [
         image:
           "https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?auto=format&fit=crop&w=1200&q=80",
         imageAlt: "headphones resting on open journal",
-        title: "Manifest Your Specific Person",
-        subtitle: "SP rampage/meditation (250+ affirmations)",
+        title: "Personalised Subliminal",
+        subtitle: "Energetic audio coded just for you",
         description:
-          "Reprogram your subconscious with hypnotizing music, reiki, and 250+ affirmations so your specific person shows up deeply devoted and obsessed with you.",
-        price: "66",
-        currency: "$",
-        alternativeCurrency: "INR",
-        alternativePrice: "6,000",
-        buttonLink: "/buy/manifest-sp",
-        buttonText: "Details here!",
+          "Receive a custom subliminal infused with affirmations, reiki, and frequency work coded to your exact desires. Listen daily to accelerate manifestations.",
+        priceLabel: "Investment shared upon booking",
+        buttonLink: "/buy/personalised-subliminal",
+        buttonText: "Book here",
         maxDescriptionLength: 240,
       },
       {
         image:
+          "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+        imageAlt: "ritual altar with candles",
+        title: "Manifest For You",
+        subtitle: "Done-for-you manifestation ritual",
+        description:
+          "Submit one desire and I will complete a full manifestation ritual for you with reiki, light language, and timeline work—plus an audio update and affirmations.",
+        priceLabel: "Investment shared upon booking",
+        buttonLink: "/buy/manifest-for-you",
+        buttonText: "Book here",
+        maxDescriptionLength: 240,
+      },
+    ],
+  },
+  {
+    title: "Meditations (on sale)",
+    description:
+      "Instant-access immersions layered with reiki and hypnotic sound to rewire your subconscious as you rest.",
+    items: [
+      {
+        image:
           "https://images.unsplash.com/photo-1523294587484-bae6cc870010?auto=format&fit=crop&w=1200&q=80",
         imageAlt: "celestial imagery with woman visualising",
-        title: "Quantum Jump to Dream Reality Meditation",
+        title: "Quantum Jump to Dream Reality",
         subtitle: "Quantum jump + affirmations + Reiki",
         description:
-          "Learn how to reprogram your subconscious in your sleep so you quantum jump into your dream body, career, partner, marriage, and master manifester timeline.",
+          "Learn how to reprogram your subconscious in your sleep so you quantum jump into your dream body, career, partner, and master manifester timeline.",
         price: "44",
         currency: "$",
         alternativeCurrency: "INR",
@@ -141,13 +151,6 @@ const offeringGroups = [
         buttonText: "Available here!",
         maxDescriptionLength: 240,
       },
-    ],
-  },
-  {
-    title: "Digital Rituals & Resources",
-    description:
-      "Short but potent transmissions that you can revisit anytime you want to amplify your magnetism and self-concept.",
-    items: [
       {
         image:
           "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1200&q=80",
@@ -166,10 +169,121 @@ const offeringGroups = [
       },
       {
         image:
+          "https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?auto=format&fit=crop&w=1200&q=80",
+        imageAlt: "headphones resting on open journal",
+        title: "Manifest Your Specific Person",
+        subtitle: "SP rampage/meditation (250+ affirmations)",
+        description:
+          "Reprogram your subconscious with hypnotizing music, reiki, and 250+ affirmations so your specific person shows up deeply devoted and obsessed with you.",
+        price: "66",
+        currency: "$",
+        alternativeCurrency: "INR",
+        alternativePrice: "6,000",
+        buttonLink: "/buy/manifest-sp",
+        buttonText: "Details here!",
+        maxDescriptionLength: 240,
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+        imageAlt: "lucky charms and sparkling lights",
+        title: "Good Luck Ritual",
+        subtitle: "Call in synchronicities and fortune",
+        description:
+          "A ceremonial meditation to magnetise good fortune, unexpected opportunities, and serendipitous breakthroughs in every area of your life.",
+        price: "28",
+        currency: "$",
+        alternativeCurrency: "INR",
+        alternativePrice: "2,400",
+        buttonLink: "/buy/good-luck-ritual",
+        buttonText: "Tap for details",
+        maxDescriptionLength: 240,
+      },
+    ],
+  },
+  {
+    title: "Energy & tarot readings",
+    description:
+      "Channeled guidance so you know exactly where your energy stands and how to realign fast.",
+    items: [
+      {
+        image:
+          "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=1200&q=80",
+        imageAlt: "tarot spread with candles",
+        title: "Current Energy of Your Specific Person",
+        subtitle: "Pinpoint what your SP is feeling",
+        description:
+          "Receive a detailed reading on where your specific person currently stands energetically, plus aligned actions to bring them closer.",
+        priceLabel: "Investment shared upon booking",
+        buttonLink: "/buy/current-sp-energy",
+        buttonText: "Book here",
+        maxDescriptionLength: 240,
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80",
+        imageAlt: "tarot cards on cloth",
+        title: "Monthly Check-in",
+        subtitle: "Ongoing energetic audit",
+        description:
+          "A monthly energetic audit with tarot and oracle guidance so you stay on top of your manifestations all month long.",
+        priceLabel: "Subscription pricing shared via email",
+        buttonLink: "/buy/monthly-check-in",
+        buttonText: "Book here",
+        maxDescriptionLength: 240,
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1531263539449-56fdf29dfc4d?auto=format&fit=crop&w=1200&q=80",
+        imageAlt: "tarot reading notebook",
+        title: "Energy/Tarot Reading via Email",
+        subtitle: "One question, full guidance",
+        description:
+          "Ask one question and receive a detailed tarot reading with energetic coaching delivered straight to your inbox.",
+        priceLabel: "Investment shared upon booking",
+        buttonLink: "/buy/tarot-email",
+        buttonText: "Book here",
+        maxDescriptionLength: 240,
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1512838243191-e81e8f66f1fd?auto=format&fit=crop&w=1200&q=80",
+        imageAlt: "oracle cards with crystals",
+        title: "Energy/Tarot + Oracle In-depth Email",
+        subtitle: "Extended channeled guidance",
+        description:
+          "An extended tarot and oracle reading with layered channeling, personalised affirmations, and step-by-step guidance.",
+        priceLabel: "Investment shared upon booking",
+        buttonLink: "/buy/tarot-oracle-email",
+        buttonText: "Book here",
+        maxDescriptionLength: 240,
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+        imageAlt: "oracle reading during audio call",
+        title: "Energy/Tarot + Oracle Audio Call",
+        subtitle: "50-minute live session",
+        description:
+          "A live 50-minute audio session blending tarot, oracle, and energetic coaching so you leave with clarity and action steps.",
+        priceLabel: "Investment shared upon booking",
+        buttonLink: "/buy/tarot-audio-call",
+        buttonText: "Book here",
+        maxDescriptionLength: 240,
+      },
+    ],
+  },
+  {
+    title: "Digital rituals & resources",
+    description:
+      "Quick yet potent transmissions you can revisit anytime you want to amplify your magnetism and self-concept.",
+    items: [
+      {
+        image:
           "https://images.unsplash.com/photo-1529234316406-31a017689551?auto=format&fit=crop&w=1200&q=80",
         imageAlt: "open book with pen and flowers",
         title: "SP Rampage Ebook",
-        subtitle: "250+ affirmations for self concept & SP",
+        subtitle: "250+ affirmations for self-concept & SP",
         description:
           "Affirmations list with self-concept and SP rampages plus a 21-day practice so you stay in the frequency of your desired relationship.",
         price: "30",
@@ -189,9 +303,7 @@ const Programs = () => {
     <section id="programs" className="bg-gray-50 py-20 dark:bg-gray-900">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-600 dark:text-blue-400">
-            Offerings
-          </p>
+          <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-600 dark:text-blue-400">Offerings</p>
           <h2 className="mt-4 text-4xl font-bold text-gray-900 dark:text-white sm:text-5xl">
             Choose the support that aligns with your season of growth.
           </h2>
@@ -200,18 +312,14 @@ const Programs = () => {
           </p>
         </div>
 
-        <div className="mt-16 space-y-20">
+        <div className="mt-16 space-y-16">
           {offeringGroups.map((group) => (
             <div key={group.title}>
-              <div className="mx-auto max-w-3xl text-center">
-                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                  {group.title}
-                </h3>
-                <p className="mt-4 text-base text-gray-600 dark:text-gray-300">
-                  {group.description}
-                </p>
+              <div className="text-center">
+                <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">{group.title}</h3>
+                <p className="mt-3 text-base text-gray-600 dark:text-gray-300">{group.description}</p>
               </div>
-              <div className="mt-10 flex flex-col items-center gap-10">
+              <div className="mt-10 grid gap-10">
                 {group.items.map((item) => (
                   <HorizontalCard key={item.title} {...item} />
                 ))}

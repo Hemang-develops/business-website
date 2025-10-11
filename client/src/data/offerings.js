@@ -1,3 +1,21 @@
+const SUPPORT_EMAIL = "highfrequencies11@gmail.com";
+const INTERAC_EMAIL = "nehalpatel755@gmail.com";
+
+const createCurrencyLink = (url, label) => (url ? { url, label } : null);
+
+const standardLegalNotes = [
+  "I acknowledge that Nehal Patel is a manifestation coach and energy reader, not a licensed mental health professional. The services provided are for spiritual and personal development purposes only and are not a substitute for professional mental health, medical, or legal advice. I understand that I am fully responsible for any decisions I make following the session.",
+  "I understand and agree that all sales are final, and no refunds will be issued under any circumstances.",
+];
+
+const standardManualInstructions = [
+  `Email me here after buying the package: ${SUPPORT_EMAIL}`,
+  "If you want to pay through Google Pay, email me above and I will give you the UPI ID (22,000 INR).",
+  `If you are from Canada, you can pay through Interac. My Interac ID: ${INTERAC_EMAIL}.`,
+];
+
+const standardPaymentMethods = ["Credit or debit card", "PayPal"];
+
 export const buySections = [
   {
     id: "coaching",
@@ -14,18 +32,37 @@ export const buySections = [
         longDescription:
           "Five deep-dive email exchanges tailored to your desires. Every reply includes custom affirmations, rampages, and detailed coaching you can revisit anytime.",
         price: { usd: "250", inr: "22,000" },
+        priceLabel: "$250 / ₹22,000",
         ctaLabel: "Book here",
-        actionLink:
-          "mailto:highfrequencies11@gmail.com?subject=Email%20Coaching%20With%20Me",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Email%20Coaching%20With%20Me`,
         paymentLinks: {
-          usd: import.meta.env.VITE_PAYMENT_EMAIL_COACHING_USD,
-          inr: import.meta.env.VITE_PAYMENT_EMAIL_COACHING_INR,
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_EMAIL_COACHING_USD,
+            "Pay $250 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_EMAIL_COACHING_INR,
+            "Pay ₹22,000 INR"
+          ),
         },
         highlights: [
           "Five deep-dive email exchanges tailored to your desires",
           "Custom affirmations and rampages channelled just for you",
           "Receive detailed guidance you can revisit anytime",
         ],
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "Five email coaching", currency: "USD", amount: "$250.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Success story",
+          quote:
+            "Five emails with Nehal created a complete shift. Every reply felt like a personal roadmap and I manifested the exact opportunity we mapped out.",
+          author: "— A., Manifestation Client",
+        },
       },
       {
         id: "single-audio-call",
@@ -35,18 +72,37 @@ export const buySections = [
         longDescription:
           "A devoted hour of strategy, energetic calibration, and next steps. Perfect when you need potent, immediate support and a clear map forward.",
         price: { usd: "155", inr: "14,000" },
+        priceLabel: "$155 / ₹14,000",
         ctaLabel: "Book here",
-        actionLink:
-          "mailto:highfrequencies11@gmail.com?subject=Coaching%20Audio%20Call",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Coaching%20Audio%20Call`,
         paymentLinks: {
-          usd: import.meta.env.VITE_PAYMENT_SINGLE_AUDIO_CALL_USD,
-          inr: import.meta.env.VITE_PAYMENT_SINGLE_AUDIO_CALL_INR,
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_SINGLE_AUDIO_CALL_USD,
+            "Pay $155 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_SINGLE_AUDIO_CALL_INR,
+            "Pay ₹14,000 INR"
+          ),
         },
         highlights: [
           "A devoted hour of strategy, energetic calibration, and next steps",
           "Leave with a clear action map rooted in your dream reality",
           "Perfect when you need potent, immediate support",
         ],
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "Audio coaching call", currency: "USD", amount: "$155.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Client breakthrough",
+          quote:
+            "One hour with Nehal cleared months of confusion. I left the call with a confident plan and a peaceful nervous system.",
+          author: "— R., Audio Coaching Client",
+        },
       },
       {
         id: "four-call-package",
@@ -56,18 +112,93 @@ export const buySections = [
         longDescription:
           "Four 60-minute calls across one month of transformation. We co-create rituals, maintain accountability, and anchor the results into your daily life.",
         price: { usd: "555", inr: "48,000" },
+        priceLabel: "$555 / ₹48,000",
         ctaLabel: "Book here",
-        actionLink:
-          "mailto:highfrequencies11@gmail.com?subject=Four%20Session%20Coaching%20Package",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Four%20Session%20Coaching%20Package`,
         paymentLinks: {
-          usd: import.meta.env.VITE_PAYMENT_FOUR_CALL_PACKAGE_USD,
-          inr: import.meta.env.VITE_PAYMENT_FOUR_CALL_PACKAGE_INR,
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_FOUR_CALL_PACKAGE_USD,
+            "Pay $555 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_FOUR_CALL_PACKAGE_INR,
+            "Pay ₹48,000 INR"
+          ),
         },
         highlights: [
           "Four 60-minute calls across one month of transformation",
           "Accountability, mindset regulation, and consistent energetic hygiene",
           "We co-create rituals so the results anchor in for life",
         ],
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "Four-call coaching package", currency: "USD", amount: "$555.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Month-long evolution",
+          quote:
+            "Each week in the four-call container layered new miracles. By the final call I was already living in the reality we mapped out on day one.",
+          author: "— M., Four Call Package Client",
+        },
+      },
+      {
+        id: "personalised-subliminal",
+        title: "Personalised subliminal",
+        subtitle: "Energetic audio coded just for you",
+        summary:
+          "Receive a custom subliminal infused with affirmations, reiki, and frequency work coded to your exact desires. Listen daily to accelerate your manifestations.",
+        longDescription:
+          "Share your intentions and I will compose a subliminal audio layered with reiki, energetic sound design, and subconscious affirmations specific to your vision.",
+        priceLabel: "Custom investment provided on request",
+        ctaLabel: "Book here",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Personalised%20Subliminal%20Creation`,
+        paymentLinks: {},
+        highlights: [
+          "Custom subliminal coded with your affirmations",
+          "Reiki-charged frequencies for deeper subconscious work",
+          "Delivered with guidance on how to use it for 21 days",
+        ],
+        paymentMethods: standardPaymentMethods,
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Client rave",
+          quote:
+            "The personalised subliminal had my manifestations pouring in within a week. It felt like it was speaking directly to my soul.",
+          author: "— D., Custom Subliminal Client",
+        },
+      },
+      {
+        id: "manifest-for-you",
+        title: "Manifest for you",
+        subtitle: "Done-for-you manifestation ritual",
+        summary:
+          "I step into ceremony on your behalf to manifest the desire you submit. Includes audio update, affirmations, and integration guide.",
+        longDescription:
+          "Submit one desire and I will complete a full manifestation ritual for you with reiki, light language, and timeline work. You receive an update plus aligned actions to maintain the shift.",
+        priceLabel: "Custom investment provided on request",
+        ctaLabel: "Book here",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Manifest%20For%20You%20Request`,
+        paymentLinks: {},
+        highlights: [
+          "Done-for-you ritual with reiki and light language",
+          "Personal audio recap with next aligned actions",
+          "Includes affirmations so you keep the channel open",
+        ],
+        paymentMethods: standardPaymentMethods,
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Miracle delivered",
+          quote:
+            "Nehal manifested for me and the outcome appeared in 48 hours. The ritual audio still keeps me anchored in that timeline.",
+          author: "— L., Manifest For You Client",
+        },
       },
     ],
   },
@@ -86,18 +217,37 @@ export const buySections = [
         longDescription:
           "Share two desires and I will design a meditation infused with reiki, energy cleansing, and hypnotic soundscapes. Listen overnight to let the reprogramming work while you sleep.",
         price: { usd: "250", inr: "22,000" },
+        priceLabel: "$250 / ₹22,000",
         ctaLabel: "Available here",
-        actionLink:
-          "mailto:highfrequencies11@gmail.com?subject=Personalised%20Meditation%20Request",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Personalised%20Meditation%20Request`,
         paymentLinks: {
-          usd: import.meta.env.VITE_PAYMENT_PERSONALISED_MEDITATION_USD,
-          inr: import.meta.env.VITE_PAYMENT_PERSONALISED_MEDITATION_INR,
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_PERSONALISED_MEDITATION_USD,
+            "Pay $250 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_PERSONALISED_MEDITATION_INR,
+            "Pay ₹22,000 INR"
+          ),
         },
         highlights: [
           "Send me two desires and I design the entire journey",
           "Includes affirmations, reiki, and energy cleansing tailored to you",
           "Listen overnight to reprogram while you sleep",
         ],
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "Custom meditation", currency: "USD", amount: "$250.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Client celebration",
+          quote:
+            "The personalised meditation sounded like my higher self speaking. I saw movement within 10 days of listening overnight.",
+          author: "— P., Meditation Client",
+        },
       },
     ],
   },
@@ -113,24 +263,38 @@ export const buySections = [
         summary:
           "This is a divine transmission—a sacred kiss from Aphrodite, channeled through video to awaken your inner divine. With whispered affirmations and a ritual guide, you’ll embody magnetic beauty, softness, and divine allure.",
         price: { usd: "22", inr: "2,000" },
+        priceLabel: "$22 / ₹2,000",
         ctaLabel: "Details here!",
         showDetailsOnClick: true,
         purchase: {
           label: "Email to receive the ritual",
-          link: "mailto:highfrequencies11@gmail.com?subject=Aphrodite%E2%80%99s%20Kiss%20of%20Beauty%20Ritual",
+          link: `mailto:${SUPPORT_EMAIL}?subject=Aphrodite%E2%80%99s%20Kiss%20of%20Beauty%20Ritual`,
         },
         paymentLinks: {
-          usd: import.meta.env.VITE_PAYMENT_APHRODITE_RITUAL_USD,
-          inr: import.meta.env.VITE_PAYMENT_APHRODITE_RITUAL_INR,
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_APHRODITE_RITUAL_USD,
+            "Pay $22 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_APHRODITE_RITUAL_INR,
+            "Pay ₹2,000 INR"
+          ),
         },
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "Aphrodite’s Kiss of Beauty ritual", currency: "USD", amount: "$22.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
         detailsSections: [
           {
-            heading: "Aphrodite’s Kiss of Beauty",
+            heading: "✧ Aphrodite’s Kiss of Beauty ✧",
             description:
               "An Energetic Beauty Ritual to Awaken Your Inner Goddess. Receive a sacred energetic kiss from Aphrodite through a channeled video ritual and magnetic affirmations. This is your invitation to embody divine radiance, softness, and sensual power.",
           },
           {
-            heading: "You’ll Learn",
+            heading: "✧ You’ll Learn:",
             items: [
               "How to receive a god/goddess energy transmission",
               "Ritual to activate beauty from within",
@@ -138,7 +302,7 @@ export const buySections = [
             ],
           },
           {
-            heading: "You’ll Awaken",
+            heading: "✧ You’ll Awaken:",
             items: [
               "Magnetic self-worth and glow",
               "Divine confidence",
@@ -147,6 +311,11 @@ export const buySections = [
           },
         ],
         closingNotes: ["This isn’t just a ritual—it’s a remembrance.", "✨ Enroll now and say yes to your glow. ✨"],
+        successStory: {
+          heading: "Glow up feedback",
+          quote: "Within days of starting the ritual, people kept complimenting my glow. I’ve never felt so radiant.",
+          author: "— S., Beauty Ritual Client",
+        },
       },
       {
         id: "trauma-release",
@@ -154,19 +323,33 @@ export const buySections = [
         summary:
           "Heal the blocks from your past. So, you can manifest your dream life with ease. In just 21 days, align with your highest self and watch the universe respond with miracles. ✨",
         price: { usd: "11", inr: "1,000" },
+        priceLabel: "$11 / ₹1,000",
         ctaLabel: "Get it instantly here!",
         showDetailsOnClick: true,
         purchase: {
           label: "Email for instant access",
-          link: "mailto:highfrequencies11@gmail.com?subject=Removing%20Trauma%20Blocks%20Meditation",
+          link: `mailto:${SUPPORT_EMAIL}?subject=Removing%20Trauma%20Blocks%20Meditation`,
         },
         paymentLinks: {
-          usd: import.meta.env.VITE_PAYMENT_TRAUMA_RELEASE_USD,
-          inr: import.meta.env.VITE_PAYMENT_TRAUMA_RELEASE_INR,
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_TRAUMA_RELEASE_USD,
+            "Pay $11 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_TRAUMA_RELEASE_INR,
+            "Pay ₹1,000 INR"
+          ),
         },
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "Removing trauma blocks meditation", currency: "USD", amount: "$11.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
         detailsSections: [
           {
-            heading: "What You’ll Learn",
+            heading: "✧ What You’ll Learn:",
             items: [
               "How to go back to your childhood and heal your inner child",
               "How to remove the blocks between you and your desires",
@@ -176,7 +359,7 @@ export const buySections = [
             ],
           },
           {
-            heading: "What Changes You Will Experience",
+            heading: "✧ What Changes You Will Experience:",
             items: [
               "You’ll stop letting your past hold you back from becoming your dream self",
               "You’ll feel lighter in your soul and closer to God",
@@ -185,7 +368,7 @@ export const buySections = [
             ],
           },
           {
-            heading: "How It Will Make Your Life Better",
+            heading: "✧ How It Will Make Your Life Better:",
             items: [
               "You’ll transform your relationship with others and with yourself",
               "You’ll attract miracles and release the people or situations that once blocked you",
@@ -198,6 +381,12 @@ export const buySections = [
           "✨ This is your sign. The desires in your heart are visions of your dream reality.",
           "Let your guardian angel lead you home to it—starting now. 💫",
         ],
+        successStory: {
+          heading: "Trauma release transformation",
+          quote:
+            "I felt blocks melting away in the first week. I’m manifesting with ease and finally feel light again.",
+          author: "— N., Meditation Student",
+        },
       },
       {
         id: "quantum-jump",
@@ -205,19 +394,33 @@ export const buySections = [
         summary:
           "Quantum jump meditation + affirmations + Reiki. Shift to your dream reality. Dream body, dream career, dream partner, marriage, and becoming a master manifester. This bedtime meditation guides you to effortlessly quantum jump into your dream reality.",
         price: { usd: "44", inr: "4,000" },
+        priceLabel: "$44 / ₹4,000",
         ctaLabel: "Available here!",
         showDetailsOnClick: true,
         purchase: {
           label: "Email to start your quantum jump",
-          link: "mailto:highfrequencies11@gmail.com?subject=Quantum%20Jump%20Meditation",
+          link: `mailto:${SUPPORT_EMAIL}?subject=Quantum%20Jump%20Meditation`,
         },
         paymentLinks: {
-          usd: import.meta.env.VITE_PAYMENT_QUANTUM_JUMP_USD,
-          inr: import.meta.env.VITE_PAYMENT_QUANTUM_JUMP_INR,
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_QUANTUM_JUMP_USD,
+            "Pay $44 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_QUANTUM_JUMP_INR,
+            "Pay ₹4,000 INR"
+          ),
         },
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "Quantum jump meditation", currency: "USD", amount: "$44.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
         detailsSections: [
           {
-            heading: "What You’ll Learn",
+            heading: "✧ Get started now!",
             items: [
               "How to impress your subconscious before sleep",
               "How to bring your desires to the surface effortlessly",
@@ -225,7 +428,7 @@ export const buySections = [
             ],
           },
           {
-            heading: "What It Will Do for You",
+            heading: "✧ What It Will Do for You:",
             items: [
               "Speeds up manifestation using sleep-time reprogramming",
               "Clears blocks and rewires limiting beliefs naturally",
@@ -236,6 +439,12 @@ export const buySections = [
         closingNotes: [
           "✨ Your subconscious is most open before bed—start tonight and let your desires find you while you sleep.",
         ],
+        successStory: {
+          heading: "Quantum leap win",
+          quote:
+            "I listened nightly and landed my dream role in under a month. The meditation makes quantum jumping effortless.",
+          author: "— J., Quantum Jump Student",
+        },
       },
       {
         id: "manifest-sp",
@@ -243,19 +452,33 @@ export const buySections = [
         summary:
           "I will share here, how to manifest deep, committed love using over 250 powerful affirmations infused with Reiki energy. This guided meditation will transform your self-concept and attract obsessive, devoted love into your life.",
         price: { usd: "66", inr: "6,000" },
+        priceLabel: "$66 / ₹6,000",
         ctaLabel: "Details here!",
         showDetailsOnClick: true,
         purchase: {
           label: "Email to receive the SP rampage",
-          link: "mailto:highfrequencies11@gmail.com?subject=Manifest%20Your%20Specific%20Person",
+          link: `mailto:${SUPPORT_EMAIL}?subject=Manifest%20Your%20Specific%20Person`,
         },
         paymentLinks: {
-          usd: import.meta.env.VITE_PAYMENT_MANIFEST_SP_USD,
-          inr: import.meta.env.VITE_PAYMENT_MANIFEST_SP_INR,
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_MANIFEST_SP_USD,
+            "Pay $66 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_MANIFEST_SP_INR,
+            "Pay ₹6,000 INR"
+          ),
         },
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "Manifest your specific person meditation", currency: "USD", amount: "$66.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
         detailsSections: [
           {
-            heading: "What You’ll Learn",
+            heading: "✧ Get started now!",
             items: [
               "How to use over 250 love-based affirmations to manifest your SP",
               "How to shift your energy using guided meditation + Reiki healing",
@@ -264,16 +487,16 @@ export const buySections = [
             ],
           },
           {
-            heading: "What Changes It Will Drive",
+            heading: "✧ What Changes It Will Drive:",
             items: [
               "Your SP will become obsessed, fully committed, and even want to marry you",
               "You’ll start feeling truly desired, loved, and chosen",
               "Your self-worth and confidence will skyrocket",
-              "You’ll attract romantic gestures and “prince/princess” treatment",
+              "You’ll attract romantic gestures and ‘prince/princess’ treatment",
             ],
           },
           {
-            heading: "How It Will Make Your Life Better",
+            heading: "✧ How It Will Make Your Life Better:",
             items: [
               "You’ll finally feel secure, adored, and emotionally fulfilled",
               "You’ll start receiving love in unexpected, miraculous ways",
@@ -286,6 +509,12 @@ export const buySections = [
           "✨ Why buy now? The energy is already working for you the moment you say yes.",
           "Start today—and watch love chase you.",
         ],
+        successStory: {
+          heading: "Love manifested",
+          quote:
+            "Within two weeks my SP confessed their feelings and asked to make it official. The rampage shifted everything.",
+          author: "— K., SP Manifestation Student",
+        },
       },
       {
         id: "inner-child",
@@ -293,19 +522,33 @@ export const buySections = [
         summary:
           "This meditation with healing frequencies and affirmations heals your inner child, erasing childhood beliefs about money, relationships—transforming self-worth, mindset, and connections.",
         price: { usd: "33", inr: "3,000" },
+        priceLabel: "$33 / ₹3,000",
         ctaLabel: "Available here!",
         showDetailsOnClick: true,
         purchase: {
           label: "Email to begin your healing",
-          link: "mailto:highfrequencies11@gmail.com?subject=Inner%20Child%20Healing%20Meditation",
+          link: `mailto:${SUPPORT_EMAIL}?subject=Inner%20Child%20Healing%20Meditation`,
         },
         paymentLinks: {
-          usd: import.meta.env.VITE_PAYMENT_INNER_CHILD_USD,
-          inr: import.meta.env.VITE_PAYMENT_INNER_CHILD_INR,
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_INNER_CHILD_USD,
+            "Pay $33 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_INNER_CHILD_INR,
+            "Pay ₹3,000 INR"
+          ),
         },
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "Inner child healing meditation", currency: "USD", amount: "$33.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
         detailsSections: [
           {
-            heading: "What You’ll Learn",
+            heading: "✧ What You’ll Learn:",
             items: [
               "How to heal your inner child with love, affirmations, and healing frequencies",
               "How childhood shapes your beliefs about money, relationships, and the Universe",
@@ -313,7 +556,7 @@ export const buySections = [
             ],
           },
           {
-            heading: "What It Will Do",
+            heading: "✧ What It Will Do:",
             items: [
               "Heal emotional wounds holding you back",
               "Transform your self-worth, mindset, and relationships",
@@ -321,7 +564,7 @@ export const buySections = [
             ],
           },
           {
-            heading: "How Life Will Improve",
+            heading: "✧ How Life Will Improve:",
             items: [
               "Feel lighter, freer, and more confident",
               "Attract healthier relationships and opportunities",
@@ -333,6 +576,70 @@ export const buySections = [
           "✨ Why now? The sooner you heal, the sooner your dream life unfolds.",
           "Start today.",
         ],
+        successStory: {
+          heading: "Inner child restored",
+          quote:
+            "Listening daily helped me forgive my past and triple my income. My relationships feel safe and loving now.",
+          author: "— T., Inner Child Student",
+        },
+      },
+      {
+        id: "good-luck-ritual",
+        title: "Good luck ritual",
+        summary:
+          "A ceremonial meditation to magnetise good fortune, unexpected opportunities, and serendipitous breakthroughs in every area of your life.",
+        price: { usd: "28", inr: "2,400" },
+        priceLabel: "$28 / ₹2,400",
+        ctaLabel: "Tap for details",
+        showDetailsOnClick: true,
+        purchase: {
+          label: "Email for the good luck ritual",
+          link: `mailto:${SUPPORT_EMAIL}?subject=Good%20Luck%20Ritual`,
+        },
+        paymentLinks: {
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_GOOD_LUCK_RITUAL_USD,
+            "Pay $28 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_GOOD_LUCK_RITUAL_INR,
+            "Pay ₹2,400 INR"
+          ),
+        },
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "Good luck ritual", currency: "USD", amount: "$28.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        detailsSections: [
+          {
+            heading: "✧ What You’ll Receive:",
+            items: [
+              "Guided ritual audio with prosperity affirmations",
+              "Energy transmission to attract synchronicities",
+              "Daily integration prompts for 14 days",
+            ],
+          },
+          {
+            heading: "✧ Why It Works:",
+            items: [
+              "Rewires your aura to expect good fortune",
+              "Anchors gratitude so miracles meet you halfway",
+              "Calls in aligned opportunities through reiki and sound",
+            ],
+          },
+        ],
+        closingNotes: [
+          "✨ Say yes and let fortune find you in every room you enter.",
+        ],
+        successStory: {
+          heading: "Lucky streak",
+          quote:
+            "The ritual brought unexpected cash, job offers, and so many synchronicities. My friends keep asking what changed!",
+          author: "— E., Ritual Participant",
+        },
       },
     ],
   },
@@ -348,18 +655,170 @@ export const buySections = [
         summary:
           "Affirmations list (250+) includes self-concept and SP affirmations rampage. 21 days course.",
         price: { usd: "30", inr: "3,000" },
+        priceLabel: "$30 / ₹3,000",
         ctaLabel: "Request it here",
-        actionLink:
-          "mailto:highfrequencies11@gmail.com?subject=SP%20Rampage%20Ebook%20Request",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=SP%20Rampage%20Ebook%20Request`,
         paymentLinks: {
-          usd: import.meta.env.VITE_PAYMENT_SP_RAMPAGE_EBOOK_USD,
-          inr: import.meta.env.VITE_PAYMENT_SP_RAMPAGE_EBOOK_INR,
+          usd: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_SP_RAMPAGE_EBOOK_USD,
+            "Pay $30 USD"
+          ),
+          inr: createCurrencyLink(
+            import.meta.env.VITE_PAYMENT_SP_RAMPAGE_EBOOK_INR,
+            "Pay ₹3,000 INR"
+          ),
         },
         highlights: [
           "Receive a curated list of 250+ affirmations",
           "Follow a 21-day practice to anchor new beliefs",
           "Perfect companion to the Manifest Your Specific Person immersion",
         ],
+        paymentMethods: standardPaymentMethods,
+        priceDetails: [
+          { label: "SP rampage ebook", currency: "USD", amount: "$30.00" },
+        ],
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Reader results",
+          quote:
+            "The affirmations kept me in alignment. My SP mirrored the devotion word for word.",
+          author: "— V., Ebook Reader",
+        },
+      },
+    ],
+  },
+  {
+    id: "energy-readings",
+    title: "Energy & tarot readings",
+    description:
+      "Channeled guidance so you know exactly where your energy stands and how to realign fast.",
+    items: [
+      {
+        id: "current-sp-energy",
+        title: "Current energy of your specific person",
+        summary:
+          "Receive a detailed reading on where your specific person currently stands energetically, plus aligned actions to bring them closer.",
+        priceLabel: "Investment shared upon booking",
+        ctaLabel: "Book here",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Current%20SP%20Energy%20Reading`,
+        paymentLinks: {},
+        highlights: [
+          "Understand what your SP is feeling and projecting",
+          "Receive aligned affirmations to shift the connection",
+          "Delivered within 48 hours via email",
+        ],
+        paymentMethods: standardPaymentMethods,
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Energy clarity",
+          quote:
+            "The reading was so accurate and helped me know exactly what to affirm. Contact came in two days later.",
+          author: "— B., Reading Client",
+        },
+      },
+      {
+        id: "monthly-check-in",
+        title: "Monthly check-in",
+        summary:
+          "A monthly energetic audit with tarot and oracle guidance so you stay on top of your manifestations all month long.",
+        priceLabel: "Subscription pricing shared via email",
+        ctaLabel: "Book here",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Monthly%20Check-in%20Reading`,
+        paymentLinks: {},
+        highlights: [
+          "Full tarot + oracle spread delivered monthly",
+          "Personalised action steps for the weeks ahead",
+          "Includes voice note recap with affirmations",
+        ],
+        paymentMethods: standardPaymentMethods,
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Consistent momentum",
+          quote:
+            "Monthly check-ins keep me accountable and tuned in. Every month brings fresh breakthroughs.",
+          author: "— C., Monthly Client",
+        },
+      },
+      {
+        id: "tarot-email",
+        title: "Energy/tarot reading via one email",
+        summary:
+          "Ask one question and receive a detailed tarot reading with energetic coaching delivered straight to your inbox.",
+        priceLabel: "Pricing shared upon booking",
+        ctaLabel: "Book here",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Tarot%20Reading%20Email`,
+        paymentLinks: {},
+        highlights: [
+          "Detailed tarot spread answered within 48 hours",
+          "Includes affirmations and aligned action steps",
+          "Perfect when you desire quick clarity",
+        ],
+        paymentMethods: standardPaymentMethods,
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Inbox insight",
+          quote:
+            "The email reading answered every question and shifted my perspective instantly.",
+          author: "— H., Tarot Client",
+        },
+      },
+      {
+        id: "tarot-oracle-email",
+        title: "Energy/tarot reading + Oracle in depth guidance via one email",
+        summary:
+          "An extended tarot and oracle reading with layered channeling, personalised affirmations, and step-by-step guidance.",
+        priceLabel: "Pricing shared upon booking",
+        ctaLabel: "Book here",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Tarot%20%2B%20Oracle%20Reading`,
+        paymentLinks: {},
+        highlights: [
+          "Deep-dive tarot + oracle spread",
+          "Channelled guidance with integration roadmap",
+          "Delivered as a comprehensive email PDF",
+        ],
+        paymentMethods: standardPaymentMethods,
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Depth and direction",
+          quote:
+            "The oracle guidance gave me a full roadmap. I felt completely seen and supported.",
+          author: "— F., Oracle Client",
+        },
+      },
+      {
+        id: "tarot-audio-call",
+        title: "Energy/tarot + Oracle reading via audio call (50 min)",
+        summary:
+          "A live 50-minute audio session blending tarot, oracle, and energetic coaching so you leave with clarity and action steps.",
+        priceLabel: "Pricing shared upon booking",
+        ctaLabel: "Book here",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Tarot%20Audio%20Call`,
+        paymentLinks: {},
+        highlights: [
+          "Live 50-minute call with personalised reading",
+          "Interactive Q&A plus next actions",
+          "Recording delivered after the session",
+        ],
+        paymentMethods: standardPaymentMethods,
+        manualInstructions: standardManualInstructions,
+        legalNotes: standardLegalNotes,
+        secureNote: "Your payment is secured by SSL protocol.",
+        successStory: {
+          heading: "Real-time revelation",
+          quote:
+            "The live call answered questions I didn’t even know to ask. I left energised and ready to act.",
+          author: "— G., Tarot Audio Client",
+        },
       },
     ],
   },
