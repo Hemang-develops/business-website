@@ -94,6 +94,14 @@ const PaymentSection = ({ item }) => {
     return [];
   }, [currencyConfig, priceDetails, item.title]);
 
+  const apiBase = useMemo(() => {
+    const base = import.meta.env.VITE_API_BASE_URL;
+    if (!base) {
+      return "";
+    }
+    return base.replace(/\/$/, "");
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -115,7 +123,7 @@ const PaymentSection = ({ item }) => {
     setError("");
 
     try {
-      const response = await fetch(`/api/create-checkout-session`, {
+      const response = await fetch(`${apiBase}/api/create-checkout-session`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -128,11 +136,16 @@ const PaymentSection = ({ item }) => {
         }),
       });
 
-      const data = await response.json();
+      let data = null;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      }
 
       if (!response.ok) {
         throw new Error(
-          data?.error || "Unable to start checkout right now. Try again or email us for a manual invoice.",
+          data?.error ||
+            "Unable to start checkout right now. Try again or email us for a manual invoice.",
         );
       }
 
@@ -143,9 +156,18 @@ const PaymentSection = ({ item }) => {
 
       throw new Error("Stripe did not return a checkout link. Email us and we will send it manually.");
     } catch (err) {
-      setError(
-        err.message || "Unexpected error while launching checkout. Please email us and we’ll help manually.",
-      );
+      const message =
+        err?.message && typeof err.message === "string"
+          ? err.message
+          : "Unexpected error while launching checkout. Please email us and we’ll help manually.";
+
+      if (err?.name === "TypeError") {
+        setError(
+          `${message} If this keeps happening, use the manual payment instructions below while we restore the secure checkout link.`,
+        );
+      } else {
+        setError(message);
+      }
     } finally {
       setIsSubmitting(false);
     }
