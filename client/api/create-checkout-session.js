@@ -1,1 +1,3 @@
-module.exports = require("../../shared/createCheckoutSession");
+import createCheckoutSessionHandler from "../../shared/createCheckoutSession.js";
+
+export default createCheckoutSessionHandler;

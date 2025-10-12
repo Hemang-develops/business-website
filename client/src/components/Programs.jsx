@@ -300,7 +300,7 @@ const offeringGroups = [
 
 const Programs = () => {
   return (
-    <section id="programs" className="bg-gray-50 py-20 dark:bg-gray-900">
+    <section id="programs" className="min-h-screen bg-gray-50 py-4 lg:py-8 dark:bg-gray-900">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-600 dark:text-blue-400">Offerings</p>
@@ -319,9 +319,11 @@ const Programs = () => {
                 <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">{group.title}</h3>
                 <p className="mt-3 text-base text-gray-600 dark:text-gray-300">{group.description}</p>
               </div>
-              <div className="mt-10 grid gap-10">
+              <div className="mt-10 grid auto-rows-fr gap-8 md:grid-cols-2">
                 {group.items.map((item) => (
-                  <HorizontalCard key={item.title} {...item} />
+                  <div key={item.title} className="h-full">
+                    <HorizontalCard {...item} />
+                  </div>
                 ))}
               </div>
             </div>
