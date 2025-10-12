@@ -19,6 +19,7 @@ This repository now includes a sample Stripe Connect integration that demonstrat
    - `STRIPE_SECRET_KEY` &mdash; Your Stripe secret key. Replace any placeholder value before running the sample.
    - `CONNECT_APPLICATION_FEE_AMOUNT` &mdash; Fee amount in cents that the platform will charge on each Checkout session. You can override this per request in the sample API, but the amount must always be less than or equal to the Checkout total.
    - (Optional) `PUBLIC_SITE_URL` &mdash; The fully-qualified URL of your deployed site. Used to generate redirect URLs for onboarding and Checkout success pages.
+   - `FORMSPREE_FORM_ID` &mdash; The identifier for your Formspree form (the characters after `/f/` in the URL). Until this is provided the "Share your intentions" form will return a helpful configuration error instead of silently failing.
 
 3. Start the Vite development server for the client:
    ```bash
@@ -41,5 +42,6 @@ The `api/connect` directory contains lightweight handlers that call Stripe's RES
 | `/api/connect/products` | `POST` | Creates a product and default price on the connected account. |
 | `/api/connect/products` | `GET` | Lists products for a connected account, expanding their default price. |
 | `/api/connect/checkout` | `POST` | Creates a direct charge Checkout Session that includes an application fee. |
+| `/api/contact/submit` | `POST` | Proxies contact form submissions to Formspree and surfaces actionable error messages. |
 
 Review the inline comments throughout the client pages for tips on how to adapt this sample for production use.

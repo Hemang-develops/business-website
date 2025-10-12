@@ -32,7 +32,6 @@ const PaymentSection = ({ item }) => {
   const manualInstructions = item.manualInstructions || [];
   const paymentMethods = item.paymentMethods || [];
   const legalNotes = item.legalNotes || [];
-  const priceDetails = item.priceDetails || [];
   const backupLink = item.purchase?.link || item.actionLink;
   const backupLabel = item.purchase?.label || item.ctaLabel || "Email for support";
 
@@ -77,6 +76,8 @@ const PaymentSection = ({ item }) => {
   const [error, setError] = useState("");
 
   const displayedPriceDetails = useMemo(() => {
+    const priceDetails = Array.isArray(item.priceDetails) ? item.priceDetails : [];
+
     if (priceDetails.length) {
       return priceDetails.map((detail) => ({
         ...detail,
@@ -92,7 +93,7 @@ const PaymentSection = ({ item }) => {
       ];
     }
     return [];
-  }, [currencyConfig, priceDetails, item.title]);
+  }, [currencyConfig, item.priceDetails, item.title]);
 
   const apiBase = useMemo(() => {
     const base = import.meta.env.VITE_API_BASE_URL;

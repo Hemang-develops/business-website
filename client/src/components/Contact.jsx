@@ -1,6 +1,17 @@
+import { useState } from "react";
+
 import { offeringSupportOptions } from "../data/offerings";
 
+const initialFormState = {
+  name: "",
+  email: "",
+  support: "",
+  message: "",
+};
+
 const Contact = () => {
+  const [formValues, setFormValues] = useState(initialFormState);
+  const [submissionState, setSubmissionState] = useState({ status: "idle", message: "" });
   const contactMethods = [
     {
       label: "Email",
@@ -20,6 +31,45 @@ const Contact = () => {
   ];
 
   const supportOptions = [...offeringSupportOptions, "Custom collaboration"];
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValues((previous) => ({ ...previous, [name]: value }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setSubmissionState({ status: "submitting", message: "" });
+
+    try {
+      const response = await fetch("/api/contact/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formValues),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.error || "We were unable to send your message. Please try again.");
+      }
+
+      setSubmissionState({
+        status: "success",
+        message: data?.message || "Thank you for sharing. I will be in touch shortly.",
+      });
+      setFormValues(initialFormState);
+    } catch (error) {
+      setSubmissionState({
+        status: "error",
+        message:
+          error?.message ||
+          "We were unable to send your message. Please double-check your details and try again.",
+      });
+    }
+  };
 
   return (
     <section id="contact" className="bg-gray-950 py-20 text-white">
@@ -68,15 +118,18 @@ const Contact = () => {
             <p className="mt-3 text-base text-gray-600 dark:text-gray-300">
               This form lands directly in my inbox. Share your story, desires, and what kind of support you are calling in.
             </p>
-            <form className="mt-8 space-y-6" action="https://formspree.io/f/mwkggpnz" method="POST">
+            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-200">Name</label>
                 <input
                   type="text"
                   name="name"
                   required
+                  value={formValues.name}
+                  onChange={handleChange}
                   className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-base text-gray-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
                   placeholder="Your name"
+                  autoComplete="name"
                 />
               </div>
               <div>
@@ -85,8 +138,11 @@ const Contact = () => {
                   type="email"
                   name="email"
                   required
+                  value={formValues.email}
+                  onChange={handleChange}
                   className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-base text-gray-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
                   placeholder="you@example.com"
+                  autoComplete="email"
                 />
               </div>
               <div>
@@ -94,8 +150,9 @@ const Contact = () => {
                 <select
                   name="support"
                   className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-base text-gray-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
-                  defaultValue=""
                   required
+                  value={formValues.support}
+                  onChange={handleChange}
                 >
                   <option value="" disabled>
                     Select the offering you are interested in
@@ -111,17 +168,28 @@ const Contact = () => {
                   name="message"
                   rows={5}
                   required
+                  value={formValues.message}
+                  onChange={handleChange}
                   className="w-full rounded-2xl border border-gray-300 px-4 py-3 text-base text-gray-900 shadow-sm focus:border-teal-400 focus:outline-none focus:ring-2 focus:ring-teal-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"
                   placeholder="Tell me about the future you are calling in."
                 ></textarea>
               </div>
               <button
                 type="submit"
-                className="w-full rounded-full bg-gray-900 px-8 py-3 text-base font-semibold text-white shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:bg-teal-400 hover:text-gray-900"
+                disabled={submissionState.status === "submitting"}
+                className="w-full rounded-full bg-gray-900 px-8 py-3 text-base font-semibold text-white shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:bg-teal-400 hover:text-gray-900 disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-white/70"
               >
-                Send message
+                {submissionState.status === "submitting" ? "Sending..." : "Send message"}
               </button>
             </form>
+            <div className="mt-4 min-h-[1.5rem]" aria-live="polite">
+              {submissionState.status === "success" && (
+                <p className="text-sm font-medium text-teal-500 dark:text-teal-300">{submissionState.message}</p>
+              )}
+              {submissionState.status === "error" && (
+                <p className="text-sm font-medium text-rose-500 dark:text-rose-300">{submissionState.message}</p>
+              )}
+            </div>
             <p className="mt-6 text-sm text-gray-500 dark:text-gray-400">
               By submitting this form you agree to receive occasional updates about High Frequencies 11 offerings. You can opt out at any time.
             </p>
