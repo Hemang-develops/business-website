@@ -21,6 +21,8 @@ This repository now includes a sample Stripe Connect integration that demonstrat
    - (Optional) `PUBLIC_SITE_URL` &mdash; The fully-qualified URL of your deployed site. Used to generate redirect URLs for onboarding and Checkout success pages.
    - `FORMSPREE_FORM_ID` &mdash; The identifier for your Formspree form (the characters after `/f/` in the URL). Until this is provided the "Share your intentions" form will return a helpful configuration error instead of silently failing.
 
+   The standard store checkout (`/api/create-checkout-session`) looks up the Stripe price ID for each product using the keys listed in `client/src/data/checkoutCatalog.json`. If an environment variable is not set, the handler now falls back to the `unitAmount` defined in that file and sends inline `price_data` to Stripe so you can test quickly without creating prices ahead of time. Update both the human-friendly labels and the `unitAmount` (stored in the currency's smallest unit) whenever you change pricing.
+
 3. Start the Vite development server for the client:
    ```bash
    npm run dev
