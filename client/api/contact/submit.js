@@ -1,3 +1,6 @@
-import contactSubmitHandler from "../../../api/contact/submit.js";
+import { createRequire } from "module";
 
-export default contactSubmitHandler;
+const require = createRequire(import.meta.url);
+const handler = require("../../../api/contact/submit.js");
+
+export default handler;

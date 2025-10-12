@@ -1,3 +1,6 @@
-import accountStatusHandler from "../../../api/connect/account-status.js";
+import { createRequire } from "module";
 
-export default accountStatusHandler;
+const require = createRequire(import.meta.url);
+const handler = require("../../../api/connect/account-status.js");
+
+export default handler;

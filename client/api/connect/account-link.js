@@ -1,3 +1,6 @@
-import accountLinkHandler from "../../../api/connect/account-link.js";
+import { createRequire } from "module";
 
-export default accountLinkHandler;
+const require = createRequire(import.meta.url);
+const handler = require("../../../api/connect/account-link.js");
+
+export default handler;

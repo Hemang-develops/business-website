@@ -1,3 +1,6 @@
-import connectProductsHandler from "../../../api/connect/products.js";
+import { createRequire } from "module";
 
-export default connectProductsHandler;
+const require = createRequire(import.meta.url);
+const handler = require("../../../api/connect/products.js");
+
+export default handler;

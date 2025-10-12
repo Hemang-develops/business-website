@@ -1,3 +1,6 @@
-import connectCheckoutHandler from "../../../api/connect/checkout.js";
+import { createRequire } from "module";
 
-export default connectCheckoutHandler;
+const require = createRequire(import.meta.url);
+const handler = require("../../../api/connect/checkout.js");
+
+export default handler;

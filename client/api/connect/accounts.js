@@ -1,3 +1,6 @@
-import createConnectedAccount from "../../../api/connect/accounts.js";
+import { createRequire } from "module";
 
-export default createConnectedAccount;
+const require = createRequire(import.meta.url);
+const handler = require("../../../api/connect/accounts.js");
+
+export default handler;
