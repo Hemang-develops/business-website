@@ -17,7 +17,7 @@ This repository now includes a sample Stripe Connect integration that demonstrat
 
 2. Configure the following environment variables before calling any Stripe endpoints:
    - `STRIPE_SECRET_KEY` &mdash; Your Stripe secret key. Replace any placeholder value before running the sample.
-   - `CONNECT_APPLICATION_FEE_AMOUNT` &mdash; Fee amount in cents that the platform will charge on each Checkout session. You can override this per request in the sample API.
+   - `CONNECT_APPLICATION_FEE_AMOUNT` &mdash; Fee amount in cents that the platform will charge on each Checkout session. You can override this per request in the sample API, but the amount must always be less than or equal to the Checkout total.
    - (Optional) `PUBLIC_SITE_URL` &mdash; The fully-qualified URL of your deployed site. Used to generate redirect URLs for onboarding and Checkout success pages.
 
 3. Start the Vite development server for the client:
@@ -30,6 +30,8 @@ The new routes are available at `/connect-demo` for the admin-style workflow and
 ## API endpoints
 
 The `api/connect` directory contains lightweight handlers that call Stripe's REST API using `fetch` and the `2025-09-30.clover` API version. Each handler validates required inputs, returns descriptive error messages when environment variables are missing, and demonstrates how to send the `Stripe-Account` header when acting on behalf of a connected account.
+
+> **Tip:** Before testing Checkout, confirm in the Connect demo dashboard that the connected account shows `charges_enabled` and the `card_payments` capability set to `active`. The sample now checks those values on each Checkout request and blocks the flow until onboarding is complete.
 
 | Endpoint | Method | Description |
 | --- | --- | --- |

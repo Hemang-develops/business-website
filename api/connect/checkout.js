@@ -74,6 +74,42 @@ module.exports = async function createDirectChargeCheckout(req, res) {
   const cancelUrl = `${origin}/connect/checkout-status?status=cancel`;
 
   try {
+    const account = await stripeRequest(`/accounts/${accountId}`, {
+      method: "GET",
+    });
+
+    const cardCapability = account?.capabilities?.card_payments;
+    const cardPaymentsBlocked = typeof cardCapability === "string" && cardCapability !== "active";
+    if (!account?.charges_enabled || cardPaymentsBlocked) {
+      return sendJson(res, 400, {
+        error:
+          "This connected account cannot accept card payments yet. Complete onboarding in the Stripe Dashboard and try again.",
+      });
+    }
+
+    const price = await stripeRequest(`/prices/${priceId}`, {
+      stripeAccount: accountId,
+    });
+
+    if (!price?.active) {
+      return sendJson(res, 400, { error: "The selected price is inactive. Choose an active price and try again." });
+    }
+
+    if (!Number.isFinite(price?.unit_amount)) {
+      return sendJson(res, 400, {
+        error: "The selected price is missing a unit amount. Create the product again with default_price_data set.",
+      });
+    }
+
+    const lineTotal = Math.round(price.unit_amount) * Math.round(quantity);
+
+    if (feeAmount > lineTotal) {
+      return sendJson(res, 400, {
+        error:
+          "The application fee is larger than the checkout amount. Lower the platform fee or increase the product price.",
+      });
+    }
+
     const session = await stripeRequest("/checkout/sessions", {
       method: "POST",
       stripeAccount: accountId,
