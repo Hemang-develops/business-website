@@ -69,8 +69,21 @@ async function createCheckoutSessionHandler(req, res) {
   }
 
   const origin = resolveOrigin(req);
-  const successPath = productConfig.successPath || `/buy/${productId}?status=success`;
-  const cancelPath = productConfig.cancelPath || `/buy/${productId}?status=cancel`;
+  const ensureStatusPath = (path, status) => {
+    if (!path) {
+      return `/buy/${productId}/status/${status}`;
+    }
+
+    if (path.includes("?status=")) {
+      const [base] = path.split("?status=");
+      return `${base.replace(/\/$/, "")}/status/${status}`;
+    }
+
+    return path;
+  };
+
+  const successPath = ensureStatusPath(productConfig.successPath, "success");
+  const cancelPath = ensureStatusPath(productConfig.cancelPath, "cancel");
   const successUrl = `${origin}${successPath}`;
   const cancelUrl = `${origin}${cancelPath}`;
 
@@ -79,22 +92,6 @@ async function createCheckoutSessionHandler(req, res) {
   body.append("success_url", successUrl);
   body.append("cancel_url", cancelUrl);
   body.append("line_items[0][quantity]", "1");
-
-  if (priceId) {
-    body.append("line_items[0][price]", priceId);
-  } else {
-    const productName =
-      productConfig.name ||
-      productId
-        .split("-")
-        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(" ");
-
-    body.append("line_items[0][price_data][currency]", currencyCode || resolvedCurrency);
-    body.append("line_items[0][price_data][unit_amount]", `${normalizedUnitAmount}`);
-    body.append("line_items[0][price_data][product_data][name]", productName);
-  }
-  body.append("customer_email", email);
 
   if (priceId) {
     body.append("line_items[0][price]", priceId);

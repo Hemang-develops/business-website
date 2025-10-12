@@ -1,8 +1,8 @@
 const CTA = () => {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 py-4 lg:py-8 text-white">
+    <section className="relative overflow-hidden bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 py-24 text-white lg:py-32">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.15),transparent_55%)]" />
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 text-center">
+      <div className="relative mx-auto flex min-h-[320px] max-w-6xl flex-col items-center justify-center gap-6 px-6 text-center">
         <h2 className="text-4xl font-bold sm:text-5xl">Your next quantum leap is one decision away.</h2>
         <p className="max-w-3xl text-lg text-white/80">
           When you say yes to yourself, the universe reschedules everything in your favor. Let's co-create the

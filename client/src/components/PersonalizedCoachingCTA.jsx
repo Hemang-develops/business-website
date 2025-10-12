@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const benefits = [
   "Personalised Coaching with me for 30 days",
   "5 calls with me",
@@ -52,14 +54,12 @@ const PersonalizedCoachingCTA = () => {
               <span className="text-sm font-medium text-white/70">or 95,000 INR</span>
             </div>
             <p className="mt-4 text-sm text-white/70">30 days • private Voxer/email support • personalised meditations</p>
-            <a
-              href="https://highfrequencies11.systeme.io/becomeanewyou"
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              to="/buy/become-a-new-you"
               className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-pink-500 px-6 py-3 text-sm font-semibold uppercase tracking-[0.32em] text-white transition hover:bg-pink-400"
             >
               Become a new you here
-            </a>
+            </Link>
           </div>
         </div>
 
