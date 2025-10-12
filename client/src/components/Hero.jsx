@@ -16,7 +16,7 @@ const Hero = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),transparent_55%),radial-gradient(circle_at_bottom,_rgba(192,132,252,0.22),transparent_60%)]" />
       <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/40 via-gray-950 to-black mix-blend-screen" />
 
-      <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-6 py-16 lg:flex-row lg:items-center lg:py-24">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-6 py-8 lg:flex-row lg:items-center lg:py-12">
         <div
           className={`space-y-8 transition-all duration-1000 ease-out ${
             isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"

@@ -300,7 +300,7 @@ const offeringGroups = [
 
 const Programs = () => {
   return (
-    <section id="programs" className="min-h-screen bg-gray-50 py-16 lg:py-20 dark:bg-gray-900">
+    <section id="programs" className="min-h-screen bg-gray-50 py-4 lg:py-8 dark:bg-gray-900">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-600 dark:text-blue-400">Offerings</p>
