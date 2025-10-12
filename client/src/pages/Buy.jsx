@@ -1,5 +1,6 @@
+import { useEffect, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams, useSearchParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navigation from "../components/Navigation";
 import { buySections, offeringsIndex } from "../data/offerings";
@@ -7,56 +8,283 @@ import { useSmoothScroll } from "../hooks/useSmoothScroll";
 
 const isExternalLink = (link) => typeof link === "string" && /^(https?:|upi:|mailto:)/.test(link);
 
-const PaymentLinkButton = ({ link }) => {
-  if (!link?.url) {
-    return null;
-  }
 
-  const external = isExternalLink(link.url);
+const entityOptions = [
+  { value: "individual", label: "Individual" },
+  { value: "company", label: "Company" },
+];
 
-  return (
-    <a
-      href={link.url}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noopener noreferrer" : undefined}
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-300 px-6 py-3 text-sm font-semibold text-gray-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-200"
-    >
-      {link.label}
-      <ArrowRight className="h-4 w-4" />
-    </a>
-  );
-};
+const billingCountries = [
+  "India",
+  "United States",
+  "Canada",
+  "United Kingdom",
+  "Australia",
+  "United Arab Emirates",
+  "Singapore",
+  "Germany",
+  "France",
+  "Other",
+];
 
 const PaymentSection = ({ item }) => {
-  const paymentLinkEntries = Object.values(item.paymentLinks || {}).filter((link) => Boolean(link?.url));
-  const hasPaymentGateway = paymentLinkEntries.length > 0;
-  const backupLink = item.purchase?.link || item.actionLink;
-  const backupLabel = item.purchase?.label || item.ctaLabel || "Email for support";
+  const checkoutOptions = item.checkoutOptions;
   const manualInstructions = item.manualInstructions || [];
   const paymentMethods = item.paymentMethods || [];
   const legalNotes = item.legalNotes || [];
   const priceDetails = item.priceDetails || [];
+  const backupLink = item.purchase?.link || item.actionLink;
+  const backupLabel = item.purchase?.label || item.ctaLabel || "Email for support";
+
+  const currencyKeys = useMemo(() => {
+    if (!checkoutOptions?.currencies) {
+      return [];
+    }
+    return Object.keys(checkoutOptions.currencies);
+  }, [checkoutOptions]);
+
+  const hasCheckout = currencyKeys.length > 0;
+
+  const [selectedCurrency, setSelectedCurrency] = useState(() => {
+    if (!hasCheckout) {
+      return "";
+    }
+    if (checkoutOptions?.defaultCurrency && currencyKeys.includes(checkoutOptions.defaultCurrency)) {
+      return checkoutOptions.defaultCurrency;
+    }
+    return currencyKeys[0];
+  });
+
+  useEffect(() => {
+    if (!hasCheckout) {
+      setSelectedCurrency("");
+      return;
+    }
+    const preferred =
+      (checkoutOptions?.defaultCurrency && currencyKeys.includes(checkoutOptions.defaultCurrency)
+        ? checkoutOptions.defaultCurrency
+        : currencyKeys[0]) || "";
+    setSelectedCurrency((current) => (current && currencyKeys.includes(current) ? current : preferred));
+  }, [hasCheckout, checkoutOptions, currencyKeys]);
+
+  const currencyConfig = hasCheckout && selectedCurrency ? checkoutOptions.currencies[selectedCurrency] : null;
+
+  const [entityType, setEntityType] = useState("individual");
+  const [firstName, setFirstName] = useState("");
+  const [email, setEmail] = useState("");
+  const [country, setCountry] = useState("India");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
+
+  const displayedPriceDetails = useMemo(() => {
+    if (priceDetails.length) {
+      return priceDetails.map((detail) => ({
+        ...detail,
+        amountLabel: currencyConfig?.amount || detail.amount,
+      }));
+    }
+    if (currencyConfig?.amount) {
+      return [
+        {
+          label: item.title,
+          amountLabel: currencyConfig.amount,
+        },
+      ];
+    }
+    return [];
+  }, [currencyConfig, priceDetails, item.title]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!hasCheckout) {
+      return;
+    }
+
+    if (!email?.trim()) {
+      setError("Enter your email so Stripe can send the receipt and download links.");
+      return;
+    }
+
+    if (!selectedCurrency) {
+      setError("Select a currency to continue.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setError("");
+
+    try {
+      const response = await fetch(`/api/create-checkout-session`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: item.id,
+          currency: selectedCurrency,
+          entityType,
+          firstName: firstName.trim(),
+          email: email.trim(),
+          country,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data?.error || "Unable to start checkout right now. Try again or email us for a manual invoice.",
+        );
+      }
+
+      if (data?.url) {
+        window.location.href = data.url;
+        return;
+      }
+
+      throw new Error("Stripe did not return a checkout link. Email us and we will send it manually.");
+    } catch (err) {
+      setError(
+        err.message || "Unexpected error while launching checkout. Please email us and we’ll help manually.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section className="space-y-8 rounded-3xl border border-white/10 bg-white/5 p-8 text-white/90 shadow-2xl backdrop-blur">
-      <div className="space-y-4">
+      <div className="space-y-6">
         <h3 className="text-xl font-semibold text-white">Checkout</h3>
-        {hasPaymentGateway ? (
-          <>
-            <p className="text-sm text-white/70">
-              Choose the currency that serves you best. Payments open in a secure, hosted gateway and process instantly.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {paymentLinkEntries.map((link) => (
-                <PaymentLinkButton key={link.url} link={link} />
-              ))}
+        {hasCheckout ? (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-teal-200/80">Account type</p>
+              <div className="mt-3 grid grid-cols-2 gap-3">
+                {entityOptions.map((option) => {
+                  const isActive = entityType === option.value;
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => setEntityType(option.value)}
+                      className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                        isActive
+                          ? "border-teal-300 bg-teal-300/20 text-teal-100"
+                          : "border-white/10 bg-transparent text-white/70 hover:border-white/30"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="space-y-2 text-sm text-white/70">
+                <span className="font-semibold text-white">First name</span>
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(event) => setFirstName(event.target.value)}
+                  placeholder="Your first name"
+                  className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-teal-300 focus:outline-none focus:ring-1 focus:ring-teal-300/60"
+                />
+              </label>
+              <label className="space-y-2 text-sm text-white/70">
+                <span className="font-semibold text-white">Email</span>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="you@example.com"
+                  required
+                  className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white placeholder:text-white/40 focus:border-teal-300 focus:outline-none focus:ring-1 focus:ring-teal-300/60"
+                />
+              </label>
+            </div>
+
+            <label className="space-y-2 text-sm text-white/70">
+              <span className="font-semibold text-white">Country</span>
+              <select
+                value={country}
+                onChange={(event) => setCountry(event.target.value)}
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white focus:border-teal-300 focus:outline-none focus:ring-1 focus:ring-teal-300/60"
+              >
+                {billingCountries.map((option) => (
+                  <option key={option} value={option} className="bg-gray-900">
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-teal-200/80">Choose your currency</p>
+              <div className="mt-3 flex flex-wrap gap-3">
+                {currencyKeys.map((currencyKey) => {
+                  const option = checkoutOptions.currencies[currencyKey];
+                  const isActive = currencyKey === selectedCurrency;
+                  return (
+                    <button
+                      key={currencyKey}
+                      type="button"
+                      onClick={() => setSelectedCurrency(currencyKey)}
+                      className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                        isActive
+                          ? "border-teal-300 bg-teal-300/20 text-teal-100"
+                          : "border-white/10 bg-transparent text-white/70 hover:border-white/30"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="space-y-3 rounded-2xl border border-white/10 bg-black/40 p-6">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm font-semibold uppercase tracking-[0.3em] text-teal-200/80">
+                  Amount due now
+                </span>
+                <span className="text-lg font-semibold text-white">
+                  {currencyConfig?.amount || item.priceLabel || "Select a currency"}
+                </span>
+              </div>
+              <p className="text-xs text-white/60">
+                You’ll be redirected to Stripe to complete your payment over a secure SSL connection.
+              </p>
+            </div>
+
+            {error && <p className="text-sm font-medium text-rose-300">{error}</p>}
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-teal-300 px-6 py-3 text-sm font-semibold text-gray-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-200 disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              {isSubmitting ? "Redirecting to Stripe…" : "Confirm and pay now"}
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </form>
         ) : (
-          <p className="text-sm text-white/70">
-            Secure payment links for this offering are being finalised. Send a quick note and you’ll receive a private checkout link immediately.
-          </p>
+          <div className="space-y-4 text-sm leading-relaxed text-white/70">
+            <p>
+              Stripe checkout links for this offering are being finalised. Email me and you’ll receive a private payment link or alternate option within minutes.
+            </p>
+            {backupLink && (
+              <a
+                href={backupLink}
+                className="inline-flex items-center gap-2 rounded-full border border-teal-300/40 bg-teal-300/10 px-5 py-2 text-sm font-semibold text-teal-200 transition hover:border-teal-200 hover:bg-teal-300/20"
+              >
+                {backupLabel}
+                <ArrowRight className="h-4 w-4" />
+              </a>
+            )}
+          </div>
         )}
+
         {paymentMethods.length ? (
           <div className="pt-2">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-teal-200/80">Pay with</p>
@@ -69,17 +297,20 @@ const PaymentSection = ({ item }) => {
             </ul>
           </div>
         ) : null}
-        {item.secureNote && <p className="text-xs text-white/60">{item.secureNote}</p>}
+
+        <p className="text-xs text-white/60">
+          {item.secureNote || "Your payment is processed by Stripe using bank-level encryption."}
+        </p>
       </div>
 
-      {priceDetails.length ? (
+      {displayedPriceDetails.length ? (
         <div className="space-y-3 rounded-2xl border border-white/10 bg-white/10 p-6">
           <h4 className="text-sm font-semibold uppercase tracking-[0.3em] text-teal-200/80">Price details</h4>
           <ul className="space-y-2 text-sm text-white/80">
-            {priceDetails.map((detail) => (
-              <li key={`${detail.label}-${detail.amount}`} className="flex items-center justify-between gap-3">
+            {displayedPriceDetails.map((detail) => (
+              <li key={`${detail.label}-${detail.amountLabel}`} className="flex items-center justify-between gap-3">
                 <span>{detail.label}</span>
-                <span className="font-semibold">{detail.amount}</span>
+                <span className="font-semibold">{detail.amountLabel}</span>
               </li>
             ))}
           </ul>
@@ -97,6 +328,8 @@ const PaymentSection = ({ item }) => {
           {backupLink && (
             <a
               href={backupLink}
+              target={isExternalLink(backupLink) ? "_blank" : undefined}
+              rel={isExternalLink(backupLink) ? "noopener noreferrer" : undefined}
               className="inline-flex items-center gap-2 text-sm font-semibold text-teal-200 transition hover:text-teal-100"
             >
               {backupLabel}
@@ -114,6 +347,36 @@ const PaymentSection = ({ item }) => {
         </div>
       ) : null}
     </section>
+  );
+};
+
+const CheckoutStatusBanner = ({ status, itemTitle }) => {
+  if (!status) {
+    return null;
+  }
+
+  const normalized = status.toLowerCase();
+  if (normalized !== "success" && normalized !== "cancel") {
+    return null;
+  }
+
+  const isSuccess = normalized === "success";
+  const title = isSuccess ? "Payment confirmed" : "Checkout cancelled";
+  const description = isSuccess
+    ? `Your order for ${itemTitle} is confirmed. Check your inbox for the download or welcome email—if it’s missing, reply to this message and we’ll resend it manually.`
+    : "You left the Stripe checkout flow early. You can relaunch it above or email us to request an alternate payment option.";
+
+  return (
+    <div
+      className={`rounded-3xl border p-6 text-sm leading-relaxed shadow-inner backdrop-blur ${
+        isSuccess
+          ? "border-teal-300/60 bg-teal-300/10 text-teal-50"
+          : "border-amber-300/60 bg-amber-300/10 text-amber-100"
+      }`}
+    >
+      <p className="text-xs font-semibold uppercase tracking-[0.3em]">{title}</p>
+      <p className="mt-3">{description}</p>
+    </div>
   );
 };
 
@@ -258,10 +521,10 @@ const BuyListView = () => {
   );
 };
 
-const BuyDetailView = ({ item }) => {
+const BuyDetailView = ({ item, checkoutStatus }) => {
   const { section } = offeringsIndex[item.id];
   const sectionAnchor = section?.id ? `/buy#${section.id}` : "/buy";
-  const paymentLinkEntries = Object.values(item.paymentLinks || {}).filter((link) => Boolean(link?.url));
+  const hasCheckout = Boolean(item.checkoutOptions?.currencies && Object.keys(item.checkoutOptions.currencies).length);
   return (
     <main className="relative z-10">
       <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-gray-950 to-black px-6 py-24">
@@ -278,7 +541,7 @@ const BuyDetailView = ({ item }) => {
           </span>
           <h1 className="text-4xl font-bold text-white sm:text-5xl">{item.title}</h1>
           <p className="max-w-3xl text-lg text-white/75">{item.longDescription || item.summary}</p>
-          {(item.priceLabel || item.price || paymentLinkEntries.length) && (
+          {(item.priceLabel || item.price || hasCheckout) && (
             <div className="mt-4 flex flex-wrap items-center gap-4 text-white/80">
               {item.priceLabel ? (
                 <span className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold">{item.priceLabel}</span>
@@ -292,7 +555,7 @@ const BuyDetailView = ({ item }) => {
                   )}
                 </>
               )}
-              {!item.priceLabel && !item.price && paymentLinkEntries.length ? (
+              {!item.priceLabel && !item.price && hasCheckout ? (
                 <span className="rounded-full border border-white/10 px-4 py-2 text-sm font-semibold">
                   Pricing shared after checkout selection
                 </span>
@@ -305,6 +568,11 @@ const BuyDetailView = ({ item }) => {
 
       <section className="bg-gray-950 px-6 pb-24 pt-12">
         <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr,1.1fr]">
+          {checkoutStatus ? (
+            <div className="lg:col-span-2">
+              <CheckoutStatusBanner status={checkoutStatus} itemTitle={item.title} />
+            </div>
+          ) : null}
           <div className="space-y-8">
             <SuccessStory successStory={item.successStory} />
             <DetailSection detailsSections={item.detailsSections} closingNotes={item.closingNotes} />
@@ -351,13 +619,23 @@ const UnknownProduct = () => (
 const Buy = () => {
   const { productId } = useParams();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const isDetailRoute = Boolean(productId);
   const product = productId ? offeringsIndex[productId] : null;
+  const checkoutStatus = searchParams.get("status");
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gray-950 text-white">
       <Navigation />
-      {isDetailRoute ? (product ? <BuyDetailView item={product} /> : <UnknownProduct />) : <BuyListView key={location.key} />}
+      {isDetailRoute ? (
+        product ? (
+          <BuyDetailView item={product} checkoutStatus={checkoutStatus} />
+        ) : (
+          <UnknownProduct />
+        )
+      ) : (
+        <BuyListView key={location.key} />
+      )}
       <Footer />
     </div>
   );

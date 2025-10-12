@@ -1,7 +1,12 @@
+import checkoutCatalog from "./checkoutCatalog.json";
+
 const SUPPORT_EMAIL = "highfrequencies11@gmail.com";
 const INTERAC_EMAIL = "nehalpatel755@gmail.com";
 
-const createCurrencyLink = (url, label) => (url ? { url, label } : null);
+const getCheckoutOptions = (id) => {
+  const config = checkoutCatalog[id];
+  return config ? { ...config, productId: id } : null;
+};
 
 const standardLegalNotes = [
   "I acknowledge that Nehal Patel is a manifestation coach and energy reader, not a licensed mental health professional. The services provided are for spiritual and personal development purposes only and are not a substitute for professional mental health, medical, or legal advice. I understand that I am fully responsible for any decisions I make following the session.",
@@ -9,12 +14,19 @@ const standardLegalNotes = [
 ];
 
 const standardManualInstructions = [
+  "Once Stripe confirms your payment you’ll receive an instant receipt—forward it if you need manual file delivery.",
   `Email me here after buying the package: ${SUPPORT_EMAIL}`,
   "If you want to pay through Google Pay, email me above and I will give you the UPI ID (22,000 INR).",
   `If you are from Canada, you can pay through Interac. My Interac ID: ${INTERAC_EMAIL}.`,
 ];
 
-const standardPaymentMethods = ["Credit or debit card", "PayPal"];
+const standardPaymentMethods = [
+  "Visa / Mastercard",
+  "American Express",
+  "Apple Pay",
+  "Google Pay",
+  "UPI (India via Stripe)",
+];
 
 export const buySections = [
   {
@@ -35,16 +47,7 @@ export const buySections = [
         priceLabel: "$250 / ₹22,000",
         ctaLabel: "Book here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Email%20Coaching%20With%20Me`,
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_EMAIL_COACHING_USD,
-            "Pay $250 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_EMAIL_COACHING_INR,
-            "Pay ₹22,000 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("email-coaching"),
         highlights: [
           "Five deep-dive email exchanges tailored to your desires",
           "Custom affirmations and rampages channelled just for you",
@@ -75,16 +78,7 @@ export const buySections = [
         priceLabel: "$155 / ₹14,000",
         ctaLabel: "Book here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Coaching%20Audio%20Call`,
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_SINGLE_AUDIO_CALL_USD,
-            "Pay $155 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_SINGLE_AUDIO_CALL_INR,
-            "Pay ₹14,000 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("single-audio-call"),
         highlights: [
           "A devoted hour of strategy, energetic calibration, and next steps",
           "Leave with a clear action map rooted in your dream reality",
@@ -115,16 +109,7 @@ export const buySections = [
         priceLabel: "$555 / ₹48,000",
         ctaLabel: "Book here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Four%20Session%20Coaching%20Package`,
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_FOUR_CALL_PACKAGE_USD,
-            "Pay $555 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_FOUR_CALL_PACKAGE_INR,
-            "Pay ₹48,000 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("four-call-package"),
         highlights: [
           "Four 60-minute calls across one month of transformation",
           "Accountability, mindset regulation, and consistent energetic hygiene",
@@ -155,7 +140,6 @@ export const buySections = [
         priceLabel: "Custom investment provided on request",
         ctaLabel: "Book here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Personalised%20Subliminal%20Creation`,
-        paymentLinks: {},
         highlights: [
           "Custom subliminal coded with your affirmations",
           "Reiki-charged frequencies for deeper subconscious work",
@@ -183,7 +167,6 @@ export const buySections = [
         priceLabel: "Custom investment provided on request",
         ctaLabel: "Book here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Manifest%20For%20You%20Request`,
-        paymentLinks: {},
         highlights: [
           "Done-for-you ritual with reiki and light language",
           "Personal audio recap with next aligned actions",
@@ -220,16 +203,7 @@ export const buySections = [
         priceLabel: "$250 / ₹22,000",
         ctaLabel: "Available here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Personalised%20Meditation%20Request`,
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_PERSONALISED_MEDITATION_USD,
-            "Pay $250 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_PERSONALISED_MEDITATION_INR,
-            "Pay ₹22,000 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("personalised-meditation"),
         highlights: [
           "Send me two desires and I design the entire journey",
           "Includes affirmations, reiki, and energy cleansing tailored to you",
@@ -270,16 +244,7 @@ export const buySections = [
           label: "Email to receive the ritual",
           link: `mailto:${SUPPORT_EMAIL}?subject=Aphrodite%E2%80%99s%20Kiss%20of%20Beauty%20Ritual`,
         },
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_APHRODITE_RITUAL_USD,
-            "Pay $22 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_APHRODITE_RITUAL_INR,
-            "Pay ₹2,000 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("aphrodite-ritual"),
         paymentMethods: standardPaymentMethods,
         priceDetails: [
           { label: "Aphrodite’s Kiss of Beauty ritual", currency: "USD", amount: "$22.00" },
@@ -330,16 +295,7 @@ export const buySections = [
           label: "Email for instant access",
           link: `mailto:${SUPPORT_EMAIL}?subject=Removing%20Trauma%20Blocks%20Meditation`,
         },
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_TRAUMA_RELEASE_USD,
-            "Pay $11 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_TRAUMA_RELEASE_INR,
-            "Pay ₹1,000 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("trauma-release"),
         paymentMethods: standardPaymentMethods,
         priceDetails: [
           { label: "Removing trauma blocks meditation", currency: "USD", amount: "$11.00" },
@@ -401,16 +357,7 @@ export const buySections = [
           label: "Email to start your quantum jump",
           link: `mailto:${SUPPORT_EMAIL}?subject=Quantum%20Jump%20Meditation`,
         },
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_QUANTUM_JUMP_USD,
-            "Pay $44 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_QUANTUM_JUMP_INR,
-            "Pay ₹4,000 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("quantum-jump"),
         paymentMethods: standardPaymentMethods,
         priceDetails: [
           { label: "Quantum jump meditation", currency: "USD", amount: "$44.00" },
@@ -459,16 +406,7 @@ export const buySections = [
           label: "Email to receive the SP rampage",
           link: `mailto:${SUPPORT_EMAIL}?subject=Manifest%20Your%20Specific%20Person`,
         },
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_MANIFEST_SP_USD,
-            "Pay $66 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_MANIFEST_SP_INR,
-            "Pay ₹6,000 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("manifest-sp"),
         paymentMethods: standardPaymentMethods,
         priceDetails: [
           { label: "Manifest your specific person meditation", currency: "USD", amount: "$66.00" },
@@ -529,16 +467,7 @@ export const buySections = [
           label: "Email to begin your healing",
           link: `mailto:${SUPPORT_EMAIL}?subject=Inner%20Child%20Healing%20Meditation`,
         },
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_INNER_CHILD_USD,
-            "Pay $33 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_INNER_CHILD_INR,
-            "Pay ₹3,000 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("inner-child"),
         paymentMethods: standardPaymentMethods,
         priceDetails: [
           { label: "Inner child healing meditation", currency: "USD", amount: "$33.00" },
@@ -596,16 +525,7 @@ export const buySections = [
           label: "Email for the good luck ritual",
           link: `mailto:${SUPPORT_EMAIL}?subject=Good%20Luck%20Ritual`,
         },
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_GOOD_LUCK_RITUAL_USD,
-            "Pay $28 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_GOOD_LUCK_RITUAL_INR,
-            "Pay ₹2,400 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("good-luck-ritual"),
         paymentMethods: standardPaymentMethods,
         priceDetails: [
           { label: "Good luck ritual", currency: "USD", amount: "$28.00" },
@@ -658,16 +578,7 @@ export const buySections = [
         priceLabel: "$30 / ₹3,000",
         ctaLabel: "Request it here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=SP%20Rampage%20Ebook%20Request`,
-        paymentLinks: {
-          usd: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_SP_RAMPAGE_EBOOK_USD,
-            "Pay $30 USD"
-          ),
-          inr: createCurrencyLink(
-            import.meta.env.VITE_PAYMENT_SP_RAMPAGE_EBOOK_INR,
-            "Pay ₹3,000 INR"
-          ),
-        },
+        checkoutOptions: getCheckoutOptions("sp-rampage-ebook"),
         highlights: [
           "Receive a curated list of 250+ affirmations",
           "Follow a 21-day practice to anchor new beliefs",
@@ -703,7 +614,6 @@ export const buySections = [
         priceLabel: "Investment shared upon booking",
         ctaLabel: "Book here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Current%20SP%20Energy%20Reading`,
-        paymentLinks: {},
         highlights: [
           "Understand what your SP is feeling and projecting",
           "Receive aligned affirmations to shift the connection",
@@ -728,7 +638,6 @@ export const buySections = [
         priceLabel: "Subscription pricing shared via email",
         ctaLabel: "Book here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Monthly%20Check-in%20Reading`,
-        paymentLinks: {},
         highlights: [
           "Full tarot + oracle spread delivered monthly",
           "Personalised action steps for the weeks ahead",
@@ -753,7 +662,6 @@ export const buySections = [
         priceLabel: "Pricing shared upon booking",
         ctaLabel: "Book here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Tarot%20Reading%20Email`,
-        paymentLinks: {},
         highlights: [
           "Detailed tarot spread answered within 48 hours",
           "Includes affirmations and aligned action steps",
@@ -778,7 +686,6 @@ export const buySections = [
         priceLabel: "Pricing shared upon booking",
         ctaLabel: "Book here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Tarot%20%2B%20Oracle%20Reading`,
-        paymentLinks: {},
         highlights: [
           "Deep-dive tarot + oracle spread",
           "Channelled guidance with integration roadmap",
@@ -803,7 +710,6 @@ export const buySections = [
         priceLabel: "Pricing shared upon booking",
         ctaLabel: "Book here",
         actionLink: `mailto:${SUPPORT_EMAIL}?subject=Tarot%20Audio%20Call`,
-        paymentLinks: {},
         highlights: [
           "Live 50-minute call with personalised reading",
           "Interactive Q&A plus next actions",

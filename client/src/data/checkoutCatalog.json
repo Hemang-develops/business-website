@@ -1,0 +1,211 @@
+{
+  "email-coaching": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/email-coaching?status=success",
+    "cancelPath": "/buy/email-coaching?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $250 USD",
+        "amount": "$250.00",
+        "priceKey": "STRIPE_PRICE_EMAIL_COACHING_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹22,000 INR",
+        "amount": "₹22,000.00",
+        "priceKey": "STRIPE_PRICE_EMAIL_COACHING_INR",
+        "mode": "payment"
+      }
+    }
+  },
+  "single-audio-call": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/single-audio-call?status=success",
+    "cancelPath": "/buy/single-audio-call?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $155 USD",
+        "amount": "$155.00",
+        "priceKey": "STRIPE_PRICE_SINGLE_AUDIO_CALL_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹14,000 INR",
+        "amount": "₹14,000.00",
+        "priceKey": "STRIPE_PRICE_SINGLE_AUDIO_CALL_INR",
+        "mode": "payment"
+      }
+    }
+  },
+  "four-call-package": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/four-call-package?status=success",
+    "cancelPath": "/buy/four-call-package?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $555 USD",
+        "amount": "$555.00",
+        "priceKey": "STRIPE_PRICE_FOUR_CALL_PACKAGE_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹48,000 INR",
+        "amount": "₹48,000.00",
+        "priceKey": "STRIPE_PRICE_FOUR_CALL_PACKAGE_INR",
+        "mode": "payment"
+      }
+    }
+  },
+  "personalised-meditation": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/personalised-meditation?status=success",
+    "cancelPath": "/buy/personalised-meditation?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $250 USD",
+        "amount": "$250.00",
+        "priceKey": "STRIPE_PRICE_PERSONALISED_MEDITATION_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹22,000 INR",
+        "amount": "₹22,000.00",
+        "priceKey": "STRIPE_PRICE_PERSONALISED_MEDITATION_INR",
+        "mode": "payment"
+      }
+    }
+  },
+  "aphrodite-ritual": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/aphrodite-ritual?status=success",
+    "cancelPath": "/buy/aphrodite-ritual?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $22 USD",
+        "amount": "$22.00",
+        "priceKey": "STRIPE_PRICE_APHRODITE_RITUAL_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹2,000 INR",
+        "amount": "₹2,000.00",
+        "priceKey": "STRIPE_PRICE_APHRODITE_RITUAL_INR",
+        "mode": "payment"
+      }
+    }
+  },
+  "trauma-release": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/trauma-release?status=success",
+    "cancelPath": "/buy/trauma-release?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $11 USD",
+        "amount": "$11.00",
+        "priceKey": "STRIPE_PRICE_TRAUMA_RELEASE_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹1,000 INR",
+        "amount": "₹1,000.00",
+        "priceKey": "STRIPE_PRICE_TRAUMA_RELEASE_INR",
+        "mode": "payment"
+      }
+    }
+  },
+  "quantum-jump": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/quantum-jump?status=success",
+    "cancelPath": "/buy/quantum-jump?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $44 USD",
+        "amount": "$44.00",
+        "priceKey": "STRIPE_PRICE_QUANTUM_JUMP_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹4,000 INR",
+        "amount": "₹4,000.00",
+        "priceKey": "STRIPE_PRICE_QUANTUM_JUMP_INR",
+        "mode": "payment"
+      }
+    }
+  },
+  "manifest-sp": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/manifest-sp?status=success",
+    "cancelPath": "/buy/manifest-sp?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $66 USD",
+        "amount": "$66.00",
+        "priceKey": "STRIPE_PRICE_MANIFEST_SP_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹6,000 INR",
+        "amount": "₹6,000.00",
+        "priceKey": "STRIPE_PRICE_MANIFEST_SP_INR",
+        "mode": "payment"
+      }
+    }
+  },
+  "inner-child": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/inner-child?status=success",
+    "cancelPath": "/buy/inner-child?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $33 USD",
+        "amount": "$33.00",
+        "priceKey": "STRIPE_PRICE_INNER_CHILD_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹3,000 INR",
+        "amount": "₹3,000.00",
+        "priceKey": "STRIPE_PRICE_INNER_CHILD_INR",
+        "mode": "payment"
+      }
+    }
+  },
+  "good-luck-ritual": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/good-luck-ritual?status=success",
+    "cancelPath": "/buy/good-luck-ritual?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $28 USD",
+        "amount": "$28.00",
+        "priceKey": "STRIPE_PRICE_GOOD_LUCK_RITUAL_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹2,400 INR",
+        "amount": "₹2,400.00",
+        "priceKey": "STRIPE_PRICE_GOOD_LUCK_RITUAL_INR",
+        "mode": "payment"
+      }
+    }
+  },
+  "sp-rampage-ebook": {
+    "defaultCurrency": "usd",
+    "successPath": "/buy/sp-rampage-ebook?status=success",
+    "cancelPath": "/buy/sp-rampage-ebook?status=cancel",
+    "currencies": {
+      "usd": {
+        "label": "Pay $30 USD",
+        "amount": "$30.00",
+        "priceKey": "STRIPE_PRICE_SP_RAMPAGE_EBOOK_USD",
+        "mode": "payment"
+      },
+      "inr": {
+        "label": "Pay ₹3,000 INR",
+        "amount": "₹3,000.00",
+        "priceKey": "STRIPE_PRICE_SP_RAMPAGE_EBOOK_INR",
+        "mode": "payment"
+      }
+    }
+  }
+}
