@@ -1,4 +1,6 @@
-/* eslint-env node */
-/* global module, require */
+import { createRequire } from "module";
 
-module.exports = require("../../../api/connect/products");
+const require = createRequire(import.meta.url);
+const handler = require("../../../api/connect/products.js");
+
+export default handler;

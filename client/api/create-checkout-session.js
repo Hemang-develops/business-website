@@ -1,4 +1,6 @@
-/* eslint-env node */
-/* global module, require */
+import { createRequire } from "module";
 
-module.exports = require("../../shared/createCheckoutSession");
+const require = createRequire(import.meta.url);
+const createCheckoutSessionHandler = require("../../shared/createCheckoutSession");
+
+export default createCheckoutSessionHandler;

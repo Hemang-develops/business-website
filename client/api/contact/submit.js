@@ -1,4 +1,6 @@
-/* eslint-env node */
-/* global module, require */
+import { createRequire } from "module";
 
-module.exports = require("../../../api/contact/submit");
+const require = createRequire(import.meta.url);
+const handler = require("../../../api/contact/submit.js");
+
+export default handler;
