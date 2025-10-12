@@ -8,17 +8,15 @@ import {
   PenTool,
   ShoppingBag,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const primaryLinks = [
+const anchorLinks = [
   { label: "About", href: "#about" },
   { label: "Programs", href: "#programs" },
-  { label: "Experience", href: "#services" },
+  { label: "Services", href: "#services" },
   { label: "Testimonials", href: "#testimonials" },
-  { label: "Resources", href: "#resources" },
   { label: "Contact", href: "#contact" },
-  { label: "Buy", href: "/buy" },
 ];
 
 const quickLinkGroups = {
@@ -86,9 +84,12 @@ const quickLinkGroups = {
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [toggle, setToggle] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isQuickPanelOpen, setIsQuickPanelOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const quickPanelRef = useRef(null);
+  const quickPanelButtonRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -97,11 +98,48 @@ const Navigation = () => {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = toggle ? "hidden" : "unset";
+    document.body.style.overflow = isDrawerOpen ? "hidden" : "unset";
     return () => {
       document.body.style.overflow = "unset";
     };
-  }, [toggle]);
+  }, [isDrawerOpen]);
+
+  useEffect(() => {
+    if (!isQuickPanelOpen) {
+      return undefined;
+    }
+
+    const handlePointerDown = (event) => {
+      const target = event.target;
+      if (
+        quickPanelRef.current?.contains(target) ||
+        quickPanelButtonRef.current?.contains(target)
+      ) {
+        return;
+      }
+      setIsQuickPanelOpen(false);
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsQuickPanelOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    document.addEventListener("touchstart", handlePointerDown);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      document.removeEventListener("touchstart", handlePointerDown);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isQuickPanelOpen]);
+
+  useEffect(() => {
+    setIsQuickPanelOpen(false);
+  }, [location]);
 
   const handleAnchorNavigation = (event, href, closeMenu = false) => {
     event.preventDefault();
@@ -116,186 +154,201 @@ const Navigation = () => {
     }
 
     if (closeMenu) {
-      setToggle(false);
+      setIsDrawerOpen(false);
     }
+    setIsQuickPanelOpen(false);
   };
 
   const handleQuickLinkNavigation = (event, href, closeMenu = false) => {
     if (href.startsWith("#")) {
       handleAnchorNavigation(event, href, closeMenu);
     } else if (closeMenu) {
-      setToggle(false);
+      setIsDrawerOpen(false);
+      setIsQuickPanelOpen(false);
     }
   };
-
-  const allQuickLinks = Object.values(quickLinkGroups).flatMap((group) => group.items);
 
   return (
     <>
       <nav
         className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
-          isScrolled
-            ? "bg-gray-950/90 shadow-lg backdrop-blur"
-            : "bg-transparent"
+          isScrolled ? "bg-gray-950/90 shadow-lg backdrop-blur" : "bg-transparent"
         }`}
       >
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link to="/" className="text-2xl font-bold text-white" onClick={() => setToggle(false)}>
+          <Link to="/" className="text-2xl font-bold text-white" onClick={() => setIsDrawerOpen(false)}>
             HF11
           </Link>
 
-          <div className="hidden items-center gap-8 md:flex">
-            {primaryLinks.map((link) => {
-              const classes =
-                "text-sm font-medium uppercase tracking-[0.25em] text-white/70 transition-colors hover:text-teal-200";
-              if (link.href.startsWith("#")) {
-                return (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={(event) => handleAnchorNavigation(event, link.href)}
-                    className={classes}
-                  >
-                    {link.label}
-                  </a>
-                );
-              }
+          <div className="hidden items-center gap-10 lg:flex">
+            {anchorLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={(event) => handleAnchorNavigation(event, link.href)}
+                className="text-sm font-medium tracking-[0.24em] text-white/70 transition-colors hover:text-teal-200"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
 
-              if (link.href.startsWith("/")) {
-                return (
-                  <Link key={link.label} to={link.href} className={classes}>
-                    {link.label}
-                  </Link>
-                );
-              }
-
-              return (
-                <a key={link.label} href={link.href} className={classes}>
-                  {link.label}
-                </a>
-              );
-            })}
-            <div className="relative group">
-              <button className="flex items-center gap-2 rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-teal-300 hover:text-teal-200">
-                Quick Links
-                <svg className="h-4 w-4 transition-transform group-hover:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div className="invisible absolute right-0 top-full mt-2 w-72 divide-y divide-white/5 rounded-3xl border border-white/10 bg-gray-950/95 p-4 opacity-0 shadow-2xl backdrop-blur transition-all duration-200 group-hover:visible group-hover:opacity-100">
-                {allQuickLinks.map((item) => {
-                  const isExternal = item.href.startsWith("http");
-                  const isAnchor = item.href.startsWith("#");
-
-                  if (isAnchor) {
-                    return (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        onClick={(event) => handleQuickLinkNavigation(event, item.href)}
-                        className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/80 transition-colors hover:bg-white/5 hover:text-teal-200"
-                      >
-                        <span className="text-white/50">{item.icon}</span>
-                        <span>{item.name}</span>
-                      </a>
-                    );
-                  }
-
-                  return (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      target={isExternal ? "_blank" : undefined}
-                      rel={isExternal ? "noopener noreferrer" : undefined}
-                      className="flex items-center gap-3 rounded-2xl px-3 py-3 text-sm text-white/80 transition-colors hover:bg-white/5 hover:text-teal-200"
-                    >
-                      <span className="text-white/50">{item.icon}</span>
-                      <span>{item.name}</span>
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
+          <div className="hidden items-center gap-3 lg:flex">
+            <button
+              ref={quickPanelButtonRef}
+              type="button"
+              onClick={() => setIsQuickPanelOpen((previous) => !previous)}
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                isQuickPanelOpen
+                  ? "border-teal-300/70 bg-teal-300/10 text-teal-200"
+                  : "border-white/20 text-white/80 hover:border-teal-300 hover:text-teal-200"
+              }`}
+            >
+              Explore
+              <svg
+                className={`h-4 w-4 transition-transform ${isQuickPanelOpen ? "rotate-180" : ""}`}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <a
+              href="mailto:highfrequencies11@gmail.com"
+              className="rounded-full border border-white/20 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-teal-300 hover:text-teal-200"
+            >
+              Email Nehal
+            </a>
+            <Link
+              to="/buy"
+              className="inline-flex items-center gap-2 rounded-full bg-teal-300 px-5 py-2 text-sm font-semibold text-gray-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-200"
+            >
+              Visit shop
+            </Link>
           </div>
 
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/20 md:hidden"
-            onClick={() => setToggle((prev) => !prev)}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 lg:hidden"
+            onClick={() => setIsDrawerOpen(true)}
             aria-label="Toggle navigation"
           >
             <span className="sr-only">Toggle menu</span>
             <div className="space-y-1.5">
-              <span className={`block h-0.5 w-6 bg-white transition-transform ${toggle ? "translate-y-2 rotate-45" : ""}`} />
-              <span className={`block h-0.5 w-6 bg-white transition-opacity ${toggle ? "opacity-0" : "opacity-100"}`} />
-              <span className={`block h-0.5 w-6 bg-white transition-transform ${toggle ? "-translate-y-2 -rotate-45" : ""}`} />
+              <span className="block h-0.5 w-6 bg-white" />
+              <span className="block h-0.5 w-6 bg-white" />
+              <span className="block h-0.5 w-6 bg-white" />
             </div>
           </button>
         </div>
       </nav>
 
+      {isQuickPanelOpen ? (
+        <>
+          <div className="fixed inset-0 z-40 hidden lg:block" aria-hidden onClick={() => setIsQuickPanelOpen(false)} />
+          <div
+            ref={quickPanelRef}
+            className="fixed right-6 top-24 z-50 hidden w-[24rem] rounded-3xl border border-white/10 bg-gray-950/95 p-6 shadow-2xl backdrop-blur lg:block"
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">Quick access</p>
+            <div className="mt-4 space-y-5">
+              {Object.entries(quickLinkGroups).map(([groupKey, group]) => (
+                <div key={groupKey} className="space-y-3">
+                  <h3 className="text-sm font-semibold text-white">{group.title}</h3>
+                  <div className="space-y-2">
+                    {group.items.map((item) => {
+                      const isExternal = item.href.startsWith("http");
+                      const isAnchor = item.href.startsWith("#");
+
+                      if (isAnchor) {
+                        return (
+                          <a
+                            key={item.name}
+                            href={item.href}
+                            onClick={(event) => handleQuickLinkNavigation(event, item.href)}
+                            className="flex items-center gap-3 rounded-2xl border border-white/10 px-3 py-3 text-sm text-white/80 transition-colors hover:border-teal-300 hover:text-teal-200"
+                          >
+                            <span className="text-white/50">{item.icon}</span>
+                            <span>{item.name}</span>
+                          </a>
+                        );
+                      }
+
+                      return (
+                        <a
+                          key={item.name}
+                          href={item.href}
+                          target={isExternal ? "_blank" : undefined}
+                          rel={isExternal ? "noopener noreferrer" : undefined}
+                          className="flex items-center gap-3 rounded-2xl border border-white/10 px-3 py-3 text-sm text-white/80 transition-colors hover:border-teal-300 hover:text-teal-200"
+                        >
+                          <span className="text-white/50">{item.icon}</span>
+                          <span>{item.name}</span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="mt-6 rounded-2xl border border-teal-300/40 bg-teal-300/10 p-4 text-sm text-teal-100">
+              Need support choosing an offering? Email
+              <a className="ml-1 font-semibold" href="mailto:highfrequencies11@gmail.com">
+                highfrequencies11@gmail.com
+              </a>
+              .
+            </div>
+          </div>
+        </>
+      ) : null}
+
       <div
-        className={`fixed inset-0 z-40 bg-gray-950/90 backdrop-blur transition-opacity duration-300 md:hidden ${
-          toggle ? "visible opacity-100" : "invisible opacity-0"
+        className={`fixed inset-0 z-40 bg-gray-950/90 backdrop-blur transition-opacity duration-300 lg:hidden ${
+          isDrawerOpen ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <div className={`ml-auto flex h-full w-full max-w-sm flex-col gap-8 border-l border-white/10 bg-gray-950 px-6 py-10 transition-transform duration-300 ${
-            toggle ? "translate-x-0" : "translate-x-full"
+        <div
+          className={`ml-auto flex h-full w-full max-w-sm flex-col gap-8 border-l border-white/10 bg-gray-950 px-6 py-10 transition-transform duration-300 ${
+            isDrawerOpen ? "translate-x-0" : "translate-x-full"
           }`}
         >
           <div className="flex items-center justify-between">
             <span className="text-lg font-semibold text-white">Navigate</span>
-            <button onClick={() => setToggle(false)} className="text-sm text-white/60">Close</button>
-          </div>
-          <div className="space-y-6">
-            {primaryLinks.map((link) => {
-              const classes =
-                "block text-base font-medium uppercase tracking-[0.3em] text-white/80 transition-colors hover:text-teal-200";
-
-              if (link.href.startsWith("#")) {
-                return (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={(event) => handleAnchorNavigation(event, link.href, true)}
-                    className={classes}
-                  >
-                    {link.label}
-                  </a>
-                );
-              }
-
-              if (link.href.startsWith("/")) {
-                return (
-                  <Link
-                    key={link.label}
-                    to={link.href}
-                    onClick={() => setToggle(false)}
-                    className={classes}
-                  >
-                    {link.label}
-                  </Link>
-                );
-              }
-
-              return (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setToggle(false)}
-                  className={classes}
-                >
-                  {link.label}
-                </a>
-              );
-            })}
+            <button onClick={() => setIsDrawerOpen(false)} className="text-sm text-white/60">
+              Close
+            </button>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-5">
+            {anchorLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={(event) => handleAnchorNavigation(event, link.href, true)}
+                className="block text-base font-medium tracking-[0.28em] text-white/80 transition-colors hover:text-teal-200"
+              >
+                {link.label}
+              </a>
+            ))}
+            <Link
+              to="/buy"
+              onClick={() => setIsDrawerOpen(false)}
+              className="inline-flex items-center gap-2 rounded-full bg-teal-300 px-5 py-2 text-sm font-semibold text-gray-900 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-200"
+            >
+              Visit shop
+            </Link>
+            <a
+              href="mailto:highfrequencies11@gmail.com"
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-teal-300 hover:text-teal-200"
+            >
+              Email Nehal
+            </a>
+          </div>
+
+          <div className="space-y-8 overflow-y-auto pb-6">
             {Object.entries(quickLinkGroups).map(([groupKey, group]) => (
               <div key={groupKey}>
-                <h3 className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">
-                  {group.title}
-                </h3>
+                <h3 className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">{group.title}</h3>
                 <div className="mt-3 space-y-3">
                   {group.items.map((item) => {
                     const isExternal = item.href.startsWith("http");
@@ -321,7 +374,7 @@ const Navigation = () => {
                         href={item.href}
                         target={isExternal ? "_blank" : undefined}
                         rel={isExternal ? "noopener noreferrer" : undefined}
-                        onClick={() => setToggle(false)}
+                        onClick={() => setIsDrawerOpen(false)}
                         className="flex items-center gap-3 rounded-2xl border border-white/10 px-4 py-3 text-sm text-white/80 transition-colors hover:border-teal-300 hover:text-teal-200"
                       >
                         <span className="text-white/50">{item.icon}</span>
@@ -337,7 +390,11 @@ const Navigation = () => {
           <div className="rounded-3xl border border-white/10 bg-white/5 p-6 text-white/80">
             <p className="text-sm font-medium uppercase tracking-[0.35em] text-white/60">Need a sign?</p>
             <p className="mt-2 text-sm">
-              Email <a href="mailto:highfrequencies11@gmail.com" className="text-teal-200">highfrequencies11@gmail.com</a> and let's talk about what you're manifesting.
+              Email
+              <a href="mailto:highfrequencies11@gmail.com" className="ml-1 text-teal-200">
+                highfrequencies11@gmail.com
+              </a>
+              and let’s talk about what you’re manifesting.
             </p>
           </div>
         </div>
