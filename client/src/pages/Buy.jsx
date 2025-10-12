@@ -32,8 +32,9 @@ const PaymentSection = ({ item }) => {
   const manualInstructions = item.manualInstructions || [];
   const paymentMethods = item.paymentMethods || [];
   const legalNotes = item.legalNotes || [];
-  const backupLink = item.purchase?.link || item.actionLink;
-  const backupLabel = item.purchase?.label || item.ctaLabel || "Email for support";
+  const backupLink = item.manualSupport?.link || item.purchase?.link || item.actionLink;
+  const backupLabel =
+    item.manualSupport?.label || item.purchase?.label || item.ctaLabel || "Email for support";
 
   const currencyKeys = useMemo(() => {
     if (!checkoutOptions?.currencies) {
@@ -641,12 +642,12 @@ const UnknownProduct = () => (
 );
 
 const Buy = () => {
-  const { productId } = useParams();
+  const { productId, status: statusParam } = useParams();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const isDetailRoute = Boolean(productId);
   const product = productId ? offeringsIndex[productId] : null;
-  const checkoutStatus = searchParams.get("status");
+  const checkoutStatus = statusParam || searchParams.get("status");
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gray-950 text-white">

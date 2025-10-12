@@ -46,21 +46,26 @@ export const buySections = [
         price: { usd: "1,111", inr: "95,000" },
         priceLabel: "$1,111 / ₹95,000",
         ctaLabel: "Become a new you",
-        actionLink: "https://highfrequencies11.systeme.io/becomeanewyou",
+        actionLink: `mailto:${SUPPORT_EMAIL}?subject=Become%20a%20New%20You%20Mentorship`,
+        manualSupport: {
+          label: "Email me to arrange custom payment",
+          link: `mailto:${SUPPORT_EMAIL}?subject=Become%20a%20New%20You%20Mentorship`,
+        },
+        checkoutOptions: getCheckoutOptions("become-a-new-you"),
         checkoutFallbackMessage:
-          "Tap the button below to open the Systeme.io enrolment page. Complete the secure checkout and you’ll receive the welcome email and next steps within minutes.",
+          "If Stripe is unavailable for any reason, email me and I will manually issue a secure invoice in your preferred currency.",
         highlights: [
           "Five private calls plus daily voice/text support for 30 days",
           "Unlimited emails or DMs with personalised guidance",
           "Four meditations and rampages created specifically for your intentions",
         ],
-        paymentMethods: ["Secure Systeme.io card checkout"],
+        paymentMethods: [...standardPaymentMethods, "Manual invoice on request"],
         priceDetails: [
           { label: "Full mentorship investment", amount: "$1,111 USD or ₹95,000 INR" },
         ],
         manualInstructions: [
-          "Click \"Become a new you\" to enrol via the secure Systeme.io checkout page.",
-          `Need an alternate payment method? Email ${SUPPORT_EMAIL} for a manual invoice.`,
+          "Need to split the investment or pay via bank transfer? Email me for a secure manual invoice in USD or INR.",
+          `Prefer UPI, Interac, or another method? Reach out at ${SUPPORT_EMAIL} and I’ll share the steps right away.`,
           "You’ll receive onboarding questions and scheduling links as soon as checkout is complete.",
         ],
         legalNotes: standardLegalNotes,

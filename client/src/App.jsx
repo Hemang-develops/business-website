@@ -18,6 +18,7 @@ function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/buy" element={<Buy />} />
         <Route path="/buy/:productId" element={<Buy />} />
+        <Route path="/buy/:productId/status/:status" element={<Buy />} />
         <Route path="/connect-demo" element={<ConnectDemo />} />
         <Route path="/storefront/:accountId" element={<Storefront />} />
         <Route path="/connect/checkout-status" element={<ConnectCheckoutStatus />} />
