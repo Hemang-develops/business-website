@@ -96,13 +96,21 @@ async function createCheckoutSessionHandler(req, res) {
   }
   body.append("customer_email", email);
 
-  if (entityType) {
-    body.append("custom_fields[0][key]", "entity_type");
-    body.append("custom_fields[0][label][type]", "custom");
-    body.append("custom_fields[0][label][custom]", "Account type");
-    body.append("custom_fields[0][type]", "text");
-    body.append("custom_fields[0][text][value]", entityType);
+  if (priceId) {
+    body.append("line_items[0][price]", priceId);
+  } else {
+    const productName =
+      productConfig.name ||
+      productId
+        .split("-")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+
+    body.append("line_items[0][price_data][currency]", currencyCode || resolvedCurrency);
+    body.append("line_items[0][price_data][unit_amount]", `${normalizedUnitAmount}`);
+    body.append("line_items[0][price_data][product_data][name]", productName);
   }
+  body.append("customer_email", email);
 
   if (firstName) {
     body.append("metadata[first_name]", firstName);
@@ -110,6 +118,10 @@ async function createCheckoutSessionHandler(req, res) {
 
   if (country) {
     body.append("metadata[country]", country);
+  }
+
+  if (entityType) {
+    body.append("metadata[entity_type]", entityType);
   }
 
   body.append("metadata[product_id]", productId);
