@@ -53,7 +53,9 @@ const PersonalizedCoachingCTA = () => {
             </div>
             <p className="mt-4 text-sm text-white/70">30 days • private Voxer/email support • personalised meditations</p>
             <a
-              href="mailto:highfrequencies11@gmail.com?subject=Become%20a%20New%20You%20Coaching"
+              href="https://highfrequencies11.systeme.io/becomeanewyou"
+              target="_blank"
+              rel="noreferrer"
               className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-pink-500 px-6 py-3 text-sm font-semibold uppercase tracking-[0.32em] text-white transition hover:bg-pink-400"
             >
               Become a new you here
