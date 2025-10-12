@@ -27,7 +27,7 @@ const resources = [
 
 const Resources = () => {
   return (
-    <section id="resources" className="min-h-screen bg-gray-100 py-20 dark:bg-gray-900">
+    <section id="resources" className="min-h-screen bg-gray-100 py-16 lg:py-20 dark:bg-gray-900">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-600 dark:text-blue-400">

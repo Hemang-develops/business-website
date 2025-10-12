@@ -72,7 +72,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="min-h-screen bg-gray-950 py-20 text-white">
+    <section id="contact" className="min-h-screen bg-gray-950 py-16 lg:py-20 text-white">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-teal-300">
