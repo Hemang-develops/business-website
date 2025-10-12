@@ -40,19 +40,18 @@ function HorizontalCard({
   };
 
   return (
-    <div className="flex w-full max-w-4xl min-h-[280px] flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 ease-in-out md:flex-row dark:bg-gray-800">
+    <div className="flex h-full w-full flex-col overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg shadow-gray-200/50 transition-all duration-300 ease-in-out md:flex-row dark:border-gray-800 dark:bg-gray-800 dark:shadow-none">
       <div className="h-48 w-full shrink-0 md:h-auto md:w-2/5">
         <div className="h-full w-full overflow-hidden">
           <img
             src={image}
             alt={imageAlt}
             className="h-full w-full object-cover object-center"
-            style={{ minHeight: "100%", maxHeight: "100%" }}
           />
         </div>
       </div>
 
-      <div className="flex flex-1 min-h-[200px] flex-col justify-between p-4 md:p-6">
+      <div className="flex min-h-[200px] flex-1 flex-col justify-between p-6">
         <div className="flex-1">
           <h3 className="mb-2 text-lg font-bold leading-tight text-gray-800 md:text-xl dark:text-white">{title}</h3>
 
