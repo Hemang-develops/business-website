@@ -11,88 +11,75 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gray-950 text-white"
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-teal-50 to-indigo-500 dark:from-gray-900 dark:to-indigo-900"></div>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),transparent_55%),radial-gradient(circle_at_bottom,_rgba(192,132,252,0.22),transparent_60%)]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/40 via-gray-950 to-black mix-blend-screen" />
 
-      {/* Animated background elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-1000"></div>
-        <div className="absolute -bottom-8 left-40 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-2000"></div>
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 flex flex-col gap-4">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div
-            className={`hero-content space-y-8 transform transition-all duration-1000 ${
-              isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-10 opacity-0"
-            }`}
-          >
-            <div className="space-y-4 flex-wrap">
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl">
-                Hello, beautiful people. It's
-              </p>
-              <div className="flex items-end gap-3">
-                <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white leading-tight">
-                  Nehal Patel
-                </h1>
-                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl pb-1">
-                  aka
-                </p>
-              </div>
-              <h2 className="text-2xl lg:text-3xl text-blue-600 dark:text-blue-400 font-light">
-                Your guardian angel
-              </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl pb-1">
-                <a href="https://www.youtube.com/@nehalpatelishere">
-                  @nehalpatelishere
-                </a>
-              </p>
-            </div>
-          </div>
-
-          <div
-            className={`hero-image flex justify-center transform transition-all duration-1000 delay-300 ${
-              isVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-10 opacity-0"
-            }`}
-          >
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full blur-3xl opacity-20 animate-pulse"></div>
-              <img
-                src={profilePic}
-                alt="Profile picture"
-                className="relative w-80 h-80 lg:w-96 lg:h-96 rounded-full object-cover shadow-2xl border-4 border-white dark:border-gray-700"
-              />
-            </div>
-          </div>
-        </div>
-          <div className="flex flex-col gap-y-4">
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl pb-1">
-            Speed up your manifestations by signing up for one-on-one coaching
-            with me. Remember, you are worthy of all good things. 
-            {/* Email: highfrequencies11@gmail.com */}
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col gap-10 px-6 py-24 lg:flex-row lg:items-center">
+        <div
+          className={`space-y-8 transition-all duration-1000 ease-out ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+          }`}
+        >
+          <span className="inline-flex items-center rounded-full border border-white/20 px-4 py-1 text-xs font-medium uppercase tracking-[0.4em] text-white/70">
+            High Frequencies 11
+          </span>
+          <h1 className="text-4xl font-bold leading-tight sm:text-6xl">
+            Quantum manifestation coaching for visionaries ready to lead themselves.
+          </h1>
+          <p className="max-w-2xl text-lg text-white/70">
+            Hey love, I'm <span className="font-semibold text-teal-300">Nehal Patel</span>. I help you manifest with
+            integrity—honoring both the mystical and the practical. Together we create a sustainable, regulated, joyful path to
+            your next level.
           </p>
           <div className="flex flex-wrap gap-4">
             <a
-              href="#projects"
-              className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+              href="#programs"
+              className="rounded-full bg-teal-400 px-8 py-3 text-base font-semibold text-gray-900 shadow-lg shadow-teal-400/40 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
-              Join our community
+              Explore offerings
             </a>
             <a
-                href="#contact"
-                className="px-8 py-4 border-2 border-white dark:border-gray-600 text-gray-900 dark:text-gray-300 rounded-full font-medium hover:border-blue-600 dark:hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300"
-              >
-                Get In Touch
-              </a>
+              href="#contact"
+              className="rounded-full border border-white/30 px-8 py-3 text-base font-semibold text-white transition-all duration-300 hover:border-teal-300 hover:text-teal-200"
+            >
+              Book a discovery call
+            </a>
           </div>
+          <div className="grid gap-6 pt-6 sm:grid-cols-3">
+            {[
+              { title: "Aligned Strategy", text: "Energetic calibrations paired with tangible daily actions." },
+              { title: "Sacred Discipline", text: "Rituals that keep you grounded while your manifestations unfold." },
+              { title: "Devoted Support", text: "A coach, cheerleader, and mirror as you lead your divine mission." },
+            ].map((item) => (
+              <div key={item.title} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/70">
+                <p className="text-base font-semibold text-white">{item.title}</p>
+                <p className="mt-2 leading-relaxed">{item.text}</p>
+              </div>
+            ))}
           </div>
+        </div>
+
+        <div
+          className={`mx-auto flex justify-center transition-all duration-1000 ease-out delay-200 lg:mx-0 ${
+            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+          }`}
+        >
+          <div className="relative">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-teal-400 via-blue-500 to-purple-600 blur-3xl opacity-60" />
+            <div className="relative rounded-[36px] border border-white/10 bg-white/10 p-4 backdrop-blur">
+              <img
+                src={profilePic}
+                alt="Nehal Patel portrait"
+                className="h-80 w-80 rounded-[28px] object-cover shadow-2xl lg:h-96 lg:w-96"
+              />
+              <div className="absolute -bottom-10 left-1/2 w-max -translate-x-1/2 rounded-full bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur">
+                Manifestation Coach &amp; Host of @nehalpatelishere
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
