@@ -36,6 +36,43 @@ export const buySections = [
       "Personal, high-touch spaces that mirror the depth of the work we do together. Pick the rhythm that meets you right now and I will meet you in your inbox or on our call with grounded, miraculous guidance.",
     items: [
       {
+        id: "become-a-new-you",
+        title: "Personalised Coaching with me for 30 days",
+        subtitle: "Immersive private mentorship (30 days)",
+        summary:
+          "Five calls, daily support, and custom meditations crafted for your desires. 1,111 $ or 95,000 INR.",
+        longDescription:
+          "Step inside a 30-day portal of personalised coaching. We meet for five private calls, keep daily contact through email or DMs, and co-create meditations tailored to your desires so you anchor the new you in real time.",
+        price: { usd: "1,111", inr: "95,000" },
+        priceLabel: "$1,111 / ₹95,000",
+        ctaLabel: "Become a new you",
+        actionLink: "https://highfrequencies11.systeme.io/becomeanewyou",
+        checkoutFallbackMessage:
+          "Tap the button below to open the Systeme.io enrolment page. Complete the secure checkout and you’ll receive the welcome email and next steps within minutes.",
+        highlights: [
+          "Five private calls plus daily voice/text support for 30 days",
+          "Unlimited emails or DMs with personalised guidance",
+          "Four meditations and rampages created specifically for your intentions",
+        ],
+        paymentMethods: ["Secure Systeme.io card checkout"],
+        priceDetails: [
+          { label: "Full mentorship investment", amount: "$1,111 USD or ₹95,000 INR" },
+        ],
+        manualInstructions: [
+          "Click \"Become a new you\" to enrol via the secure Systeme.io checkout page.",
+          `Need an alternate payment method? Email ${SUPPORT_EMAIL} for a manual invoice.`,
+          "You’ll receive onboarding questions and scheduling links as soon as checkout is complete.",
+        ],
+        legalNotes: standardLegalNotes,
+        secureNote: "Enrollment is handled through Systeme.io using SSL encryption.",
+        successStory: {
+          heading: "Immersion results",
+          quote:
+            "Thirty days with Nehal reset my entire reality. The daily touchpoints and custom meditations kept me anchored in my new identity.",
+          author: "— J., Coaching Client",
+        },
+      },
+      {
         id: "email-coaching",
         title: "Email Coaching With Me",
         subtitle: "Five Email Coaching",

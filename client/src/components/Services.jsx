@@ -29,7 +29,7 @@ const Services = () => {
   return (
     <section
       id="services"
-      className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-rose-500 py-20 text-white"
+      className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-rose-500 py-4 lg:py-8 text-white"
     >
       <div className="absolute inset-0 opacity-20 mix-blend-soft-light">
         <div className="absolute -left-24 top-10 h-56 w-56 rounded-full bg-white/50 blur-3xl" />
@@ -48,17 +48,17 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2">
+        <div className="mt-16 grid auto-rows-fr gap-8 md:grid-cols-2 xl:grid-cols-4">
           {services.map((service) => (
             <div
               key={service.title}
-              className="group rounded-3xl bg-white/10 p-8 shadow-xl backdrop-blur transition-transform duration-300 hover:-translate-y-2"
+              className="group flex h-full flex-col rounded-3xl bg-white/10 p-8 shadow-xl backdrop-blur transition-transform duration-300 hover:-translate-y-2"
             >
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-2xl">
                 {service.icon}
               </span>
               <h3 className="mt-6 text-2xl font-semibold">{service.title}</h3>
-              <p className="mt-4 text-lg text-white/80">{service.description}</p>
+              <p className="mt-4 flex-1 text-lg text-white/80">{service.description}</p>
             </div>
           ))}
         </div>
