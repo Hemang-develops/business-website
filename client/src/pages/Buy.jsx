@@ -294,7 +294,8 @@ const PaymentSection = ({ item }) => {
         ) : (
           <div className="space-y-4 text-sm leading-relaxed text-white/70">
             <p>
-              Stripe checkout links for this offering are being finalised. Email me and you’ll receive a private payment link or alternate option within minutes.
+              {item.checkoutFallbackMessage ||
+                "Stripe checkout links for this offering are being finalised. Email me and you’ll receive a private payment link or alternate option within minutes."}
             </p>
             {backupLink && (
               <a

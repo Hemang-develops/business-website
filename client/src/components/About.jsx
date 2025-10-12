@@ -17,7 +17,7 @@ const About = () => {
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-white py-20 text-gray-900 dark:bg-gray-950 dark:text-gray-100"
+      className="relative min-h-screen overflow-hidden bg-white py-20 text-gray-900 dark:bg-gray-950 dark:text-gray-100"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-blue-50/60 via-white to-transparent dark:from-gray-900/60 dark:via-gray-950 dark:to-transparent" />
       <div className="relative mx-auto flex max-w-6xl flex-col gap-16 px-6 lg:flex-row lg:items-center">

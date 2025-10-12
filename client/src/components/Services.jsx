@@ -29,7 +29,7 @@ const Services = () => {
   return (
     <section
       id="services"
-      className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-rose-500 py-20 text-white"
+      className="relative min-h-screen overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-rose-500 py-20 text-white"
     >
       <div className="absolute inset-0 opacity-20 mix-blend-soft-light">
         <div className="absolute -left-24 top-10 h-56 w-56 rounded-full bg-white/50 blur-3xl" />

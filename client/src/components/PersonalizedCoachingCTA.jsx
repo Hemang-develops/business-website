@@ -30,7 +30,7 @@ const PersonalizedCoachingCTA = () => {
   return (
     <section
       id="coaching"
-      className="relative overflow-hidden bg-gradient-to-br from-purple-900/30 via-gray-950 to-black py-24 text-white"
+      className="relative min-h-screen overflow-hidden bg-gradient-to-br from-purple-900/30 via-gray-950 to-black py-24 text-white"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(244,114,182,0.18),transparent_55%),radial-gradient(circle_at_bottom,_rgba(56,189,248,0.18),transparent_65%)]" />
       <div className="relative mx-auto w-full max-w-6xl px-6">

@@ -18,7 +18,7 @@ const testimonials = [
 
 const Testimonials = () => {
   return (
-    <section id="testimonials" className="bg-white py-20 dark:bg-gray-950">
+    <section id="testimonials" className="min-h-screen bg-white py-20 dark:bg-gray-950">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.35em] text-blue-600 dark:text-blue-400">

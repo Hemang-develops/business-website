@@ -1,6 +1,6 @@
 const Newsletter = () => {
   return (
-    <section id="newsletter" className="relative overflow-hidden bg-gray-950 py-20 text-white">
+    <section id="newsletter" className="relative min-h-screen overflow-hidden bg-gray-950 py-20 text-white">
       <div className="absolute inset-0 bg-gradient-to-r from-teal-500/20 via-blue-500/10 to-purple-500/30" />
       <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 text-center">
         <p className="text-sm font-semibold uppercase tracking-[0.35em] text-teal-200">
