@@ -37,7 +37,9 @@ async function createCheckoutSessionHandler(req, res) {
   }
 
   const resolvedCurrency = currency || productConfig.defaultCurrency;
-  const currencyConfig = productConfig.currencies?.[resolvedCurrency];
+  const currencyCode =
+    typeof resolvedCurrency === "string" ? resolvedCurrency.toLowerCase() : "";
+  const currencyConfig = productConfig.currencies?.[currencyCode || resolvedCurrency];
   if (!currencyConfig) {
     return errorResponse(res, 400, "Selected currency is not available for this product.");
   }
@@ -48,11 +50,17 @@ async function createCheckoutSessionHandler(req, res) {
   }
 
   const priceId = process.env[priceKey];
-  if (!priceId) {
+  const rawUnitAmount = currencyConfig.unitAmount;
+  const unitAmount =
+    rawUnitAmount !== undefined && rawUnitAmount !== null ? Number(rawUnitAmount) : Number.NaN;
+  const normalizedUnitAmount = Number.isFinite(unitAmount) ? Math.round(unitAmount) : Number.NaN;
+  const hasUnitAmount = Number.isInteger(normalizedUnitAmount) && normalizedUnitAmount > 0;
+
+  if (!priceId && !hasUnitAmount) {
     return errorResponse(
       res,
       500,
-      `Stripe price ID for ${resolvedCurrency?.toUpperCase()} currency is not set.`,
+      `Stripe price ID for ${resolvedCurrency?.toUpperCase()} currency is not set. Set the ${priceKey} environment variable or provide a numeric unitAmount in checkoutCatalog.json.`,
     );
   }
 
@@ -70,8 +78,22 @@ async function createCheckoutSessionHandler(req, res) {
   body.append("mode", currencyConfig.mode || productConfig.mode || "payment");
   body.append("success_url", successUrl);
   body.append("cancel_url", cancelUrl);
-  body.append("line_items[0][price]", priceId);
   body.append("line_items[0][quantity]", "1");
+
+  if (priceId) {
+    body.append("line_items[0][price]", priceId);
+  } else {
+    const productName =
+      productConfig.name ||
+      productId
+        .split("-")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+
+    body.append("line_items[0][price_data][currency]", currencyCode || resolvedCurrency);
+    body.append("line_items[0][price_data][unit_amount]", `${normalizedUnitAmount}`);
+    body.append("line_items[0][price_data][product_data][name]", productName);
+  }
   body.append("customer_email", email);
 
   if (entityType) {
@@ -91,7 +113,7 @@ async function createCheckoutSessionHandler(req, res) {
   }
 
   body.append("metadata[product_id]", productId);
-  body.append("metadata[currency]", resolvedCurrency);
+  body.append("metadata[currency]", currencyCode || resolvedCurrency);
 
   try {
     const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
