@@ -32,11 +32,11 @@ const Testimonials = () => {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-3">
+        <div className="mt-16 grid auto-rows-fr gap-8 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
             <div
               key={testimonial.name}
-              className="rounded-3xl border border-blue-100 bg-white p-8 shadow-xl shadow-blue-100/40 transition-transform duration-300 hover:-translate-y-2 dark:border-gray-800 dark:bg-gray-900 dark:shadow-none"
+              className="flex h-full flex-col justify-between rounded-3xl border border-blue-100 bg-white p-8 shadow-xl shadow-blue-100/40 transition-transform duration-300 hover:-translate-y-2 dark:border-gray-800 dark:bg-gray-900 dark:shadow-none"
             >
               <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300">“{testimonial.quote}”</p>
               <p className="mt-6 text-sm font-semibold uppercase tracking-[0.3em] text-blue-600 dark:text-blue-400">

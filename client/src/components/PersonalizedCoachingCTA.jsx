@@ -82,12 +82,12 @@ const PersonalizedCoachingCTA = () => {
           </div>
 
           <div className="space-y-6">
-            <div className="grid gap-5">
+            <div className="grid auto-rows-fr gap-5">
               {quickLinks.map((link) => (
                 <a
                   key={link.title}
                   href={link.href}
-                  className="group rounded-2xl border border-white/15 bg-white/5 p-6 text-left transition hover:border-pink-300 hover:bg-white/10"
+                  className="group flex flex-col justify-between rounded-2xl border border-white/15 bg-white/5 p-6 text-left transition hover:border-pink-300 hover:bg-white/10"
                 >
                   <p className="text-xs font-semibold uppercase tracking-[0.32em] text-pink-200">Click here</p>
                   <p className="mt-3 text-lg font-semibold text-white">{link.title}</p>

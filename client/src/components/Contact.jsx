@@ -85,8 +85,8 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-10 lg:grid-cols-[2fr,3fr]">
-          <div className="space-y-6 rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur">
+        <div className="mt-16 grid auto-rows-fr gap-10 lg:grid-cols-[2fr,3fr]">
+          <div className="flex h-full flex-col space-y-6 rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur">
             <h3 className="text-xl font-semibold">Direct contact</h3>
             <p className="text-white/70">
               Prefer to reach out directly? Use any of the channels below and share a few details about your
@@ -113,7 +113,7 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-white/10 bg-white p-10 text-gray-900 shadow-2xl dark:bg-gray-900 dark:text-gray-100">
+          <div className="h-full rounded-3xl border border-white/10 bg-white p-10 text-gray-900 shadow-2xl dark:bg-gray-900 dark:text-gray-100">
             <h3 className="text-xl font-semibold">Share your intentions</h3>
             <p className="mt-3 text-base text-gray-600 dark:text-gray-300">
               This form lands directly in my inbox. Share your story, desires, and what kind of support you are calling in.

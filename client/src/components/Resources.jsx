@@ -41,12 +41,12 @@ const Resources = () => {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2">
+        <div className="mt-16 grid auto-rows-fr gap-6 md:grid-cols-2">
           {resources.map((resource) => (
             <a
               key={resource.title}
               href={resource.href}
-              className="group flex flex-col justify-between rounded-3xl border border-gray-200 bg-white p-8 shadow-lg shadow-gray-200/60 transition-transform duration-300 hover:-translate-y-2 hover:border-blue-400 dark:border-gray-800 dark:bg-gray-950 dark:shadow-none"
+              className="group flex h-full flex-col justify-between rounded-3xl border border-gray-200 bg-white p-8 shadow-lg shadow-gray-200/60 transition-transform duration-300 hover:-translate-y-2 hover:border-blue-400 dark:border-gray-800 dark:bg-gray-950 dark:shadow-none"
               target={resource.href.startsWith("http") ? "_blank" : undefined}
               rel={resource.href.startsWith("http") ? "noopener noreferrer" : undefined}
             >

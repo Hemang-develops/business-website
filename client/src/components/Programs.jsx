@@ -319,9 +319,11 @@ const Programs = () => {
                 <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">{group.title}</h3>
                 <p className="mt-3 text-base text-gray-600 dark:text-gray-300">{group.description}</p>
               </div>
-              <div className="mt-10 grid gap-10">
+              <div className="mt-10 grid auto-rows-fr gap-8 md:grid-cols-2">
                 {group.items.map((item) => (
-                  <HorizontalCard key={item.title} {...item} />
+                  <div key={item.title} className="h-full">
+                    <HorizontalCard {...item} />
+                  </div>
                 ))}
               </div>
             </div>

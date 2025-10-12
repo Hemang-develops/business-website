@@ -48,17 +48,17 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2">
+        <div className="mt-16 grid auto-rows-fr gap-8 md:grid-cols-2 xl:grid-cols-4">
           {services.map((service) => (
             <div
               key={service.title}
-              className="group rounded-3xl bg-white/10 p-8 shadow-xl backdrop-blur transition-transform duration-300 hover:-translate-y-2"
+              className="group flex h-full flex-col rounded-3xl bg-white/10 p-8 shadow-xl backdrop-blur transition-transform duration-300 hover:-translate-y-2"
             >
               <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-2xl">
                 {service.icon}
               </span>
               <h3 className="mt-6 text-2xl font-semibold">{service.title}</h3>
-              <p className="mt-4 text-lg text-white/80">{service.description}</p>
+              <p className="mt-4 flex-1 text-lg text-white/80">{service.description}</p>
             </div>
           ))}
         </div>
