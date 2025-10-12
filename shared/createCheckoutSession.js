@@ -96,6 +96,22 @@ async function createCheckoutSessionHandler(req, res) {
   }
   body.append("customer_email", email);
 
+  if (priceId) {
+    body.append("line_items[0][price]", priceId);
+  } else {
+    const productName =
+      productConfig.name ||
+      productId
+        .split("-")
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+        .join(" ");
+
+    body.append("line_items[0][price_data][currency]", currencyCode || resolvedCurrency);
+    body.append("line_items[0][price_data][unit_amount]", `${normalizedUnitAmount}`);
+    body.append("line_items[0][price_data][product_data][name]", productName);
+  }
+  body.append("customer_email", email);
+
   if (firstName) {
     body.append("metadata[first_name]", firstName);
   }
