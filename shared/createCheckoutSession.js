@@ -96,20 +96,16 @@ async function createCheckoutSessionHandler(req, res) {
   }
   body.append("customer_email", email);
 
-  if (entityType) {
-    body.append("custom_fields[0][key]", "entity_type");
-    body.append("custom_fields[0][label][type]", "custom");
-    body.append("custom_fields[0][label][custom]", "Account type");
-    body.append("custom_fields[0][type]", "text");
-    body.append("custom_fields[0][text][value]", entityType);
-  }
-
   if (firstName) {
     body.append("metadata[first_name]", firstName);
   }
 
   if (country) {
     body.append("metadata[country]", country);
+  }
+
+  if (entityType) {
+    body.append("metadata[entity_type]", entityType);
   }
 
   body.append("metadata[product_id]", productId);
