@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import Navigation from "../components/Navigation";
 import Newsletter from "../components/Newsletter";
+import PersonalizedCoachingCTA from "../components/PersonalizedCoachingCTA";
 import Programs from "../components/Programs";
 import Resources from "../components/Resources";
 import Services from "../components/Services";
@@ -38,6 +39,7 @@ const Index = () => {
         <Services />
         <Testimonials />
         <Resources />
+        <PersonalizedCoachingCTA />
         <Newsletter />
         <CTA />
         <Contact />
