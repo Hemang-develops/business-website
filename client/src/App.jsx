@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AdminDashboard from "./components/AdminDashboard";
 import AdminLogin from "./components/AdminLogin";
+import MaintenancePage from "./components/MaintenancePage";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import Buy from "./pages/Buy";
@@ -8,8 +9,16 @@ import NotFound from "./pages/NotFound";
 import ConnectDemo from "./pages/ConnectDemo";
 import Storefront from "./pages/Storefront";
 import ConnectCheckoutStatus from "./pages/ConnectCheckoutStatus";
+import { useMaintenanceMode } from "./hooks/useMaintenanceMode";
 
 function App() {
+  const isMaintenanceMode = useMaintenanceMode();
+
+  // Show maintenance page if enabled (except for admin routes)
+  if (isMaintenanceMode) {
+    return <MaintenancePage />;
+  }
+
   return (
     <BrowserRouter>
       <ScrollToTop />

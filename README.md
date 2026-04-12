@@ -19,7 +19,11 @@ This repository now includes a sample Stripe Connect integration that demonstrat
    - `STRIPE_SECRET_KEY` &mdash; Your Stripe secret key. Replace any placeholder value before running the sample.
    - `CONNECT_APPLICATION_FEE_AMOUNT` &mdash; Fee amount in cents that the platform will charge on each Checkout session. You can override this per request in the sample API, but the amount must always be less than or equal to the Checkout total.
    - (Optional) `PUBLIC_SITE_URL` &mdash; The fully-qualified URL of your deployed site. Used to generate redirect URLs for onboarding and Checkout success pages.
-   - `FORMSPREE_FORM_ID` &mdash; The identifier for your Formspree form (the characters after `/f/` in the URL). Until this is provided the "Share your intentions" form will return a helpful configuration error instead of silently failing.
+   - `EMAILJS_SERVICE_ID` &mdash; Your EmailJS service ID (from the EmailJS dashboard).
+   - `EMAILJS_TEMPLATE_ID` &mdash; The template ID you create for incoming messages.
+   - `EMAILJS_PUBLIC_KEY` &mdash; Public key from EmailJS.
+   - `EMAILJS_PRIVATE_KEY` &mdash; Private key (keep this secret!) used for server‑side API requests.
+   - `CONTACT_EMAIL_RECIPIENT` (optional) &mdash; Email address where messages are sent; defaults to the submitter's address if not set.
 
    The standard store checkout (`/api/create-checkout-session`) looks up the Stripe price ID for each product using the keys listed in `client/src/data/checkoutCatalog.json`. If an environment variable is not set, the handler now falls back to the `unitAmount` defined in that file and sends inline `price_data` to Stripe so you can test quickly without creating prices ahead of time. Update both the human-friendly labels and the `unitAmount` (stored in the currency's smallest unit) whenever you change pricing.
 
@@ -44,6 +48,24 @@ The `api/connect` directory contains lightweight handlers that call Stripe's RES
 | `/api/connect/products` | `POST` | Creates a product and default price on the connected account. |
 | `/api/connect/products` | `GET` | Lists products for a connected account, expanding their default price. |
 | `/api/connect/checkout` | `POST` | Creates a direct charge Checkout Session that includes an application fee. |
-| `/api/contact/submit` | `POST` | Proxies contact form submissions to Formspree and surfaces actionable error messages. |
+| `/api/contact/submit` | `POST` | Sends form data to EmailJS; response includes success/error messages.
 
 Review the inline comments throughout the client pages for tips on how to adapt this sample for production use.
+
+---
+
+## Setting up the EmailJS template 📧
+
+Create a new email template in your EmailJS dashboard. Include the following template variables so the server can pass form data directly:
+
+```text
+From: {{from_name}} <{{from_email}}>
+Support request: {{support_type}}
+
+Message:
+{{message}}
+```
+
+You can modify the layout or add additional fields as needed, but the four variables above **must** match the names used in `api/contact/submit.js`.
+
+Once the template is saved, copy its ID into `EMAILJS_TEMPLATE_ID` and make sure your other EmailJS credentials are set in the environment before deploying.

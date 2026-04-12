@@ -75,7 +75,7 @@ const Hero = () => {
                 className="h-80 w-80 rounded-[28px] object-cover shadow-2xl lg:h-96 lg:w-96"
               />
               <div className="absolute -bottom-10 left-1/2 w-max -translate-x-1/2 rounded-full bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur">
-                Manifestation Coach &amp; Host of @nehalpatelishere
+                Manifestation Coach
               </div>
             </div>
           </div>
