@@ -10,17 +10,25 @@ import ConnectDemo from "./pages/ConnectDemo";
 import Storefront from "./pages/Storefront";
 import ConnectCheckoutStatus from "./pages/ConnectCheckoutStatus";
 import { useMaintenanceMode } from "./hooks/useMaintenanceMode";
+import Footer from "./components/Footer";
 
-function App() {
+function AppContent() {
   const isMaintenanceMode = useMaintenanceMode();
 
   // Show maintenance page if enabled (except for admin routes)
   if (isMaintenanceMode) {
-    return <MaintenancePage />;
+    return (
+      <div className="relative min-h-screen overflow-hidden bg-gray-950 text-white">
+        <main className="relative z-10">
+          <MaintenancePage />
+        </main>
+        <Footer />
+      </div>
+    );
   }
 
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTop />
       <Routes>
         <Route path="/super-admin-418" element={<AdminLogin />} />
@@ -35,6 +43,14 @@ function App() {
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 }

@@ -1,71 +1,116 @@
-const footerLinks = [
-  {
-    heading: "Explore",
-    links: [
-      { label: "About", href: "#about" },
-      { label: "Programs", href: "#programs" },
-      { label: "Experiences", href: "#services" },
-      { label: "Testimonials", href: "#testimonials" },
-    ],
-  },
-  {
-    heading: "Connect",
-    links: [
-      { label: "Instagram", href: "https://www.instagram.com/highfrequencies11/" },
-      { label: "YouTube", href: "https://www.youtube.com/@nehalpatelishere" },
-      { label: "Podcast", href: "https://open.spotify.com/show/02zFg2ejkXs1XHBo6teu5n" },
-      { label: "Amazon Store", href: "https://www.amazon.ca/shop/bookescape_?ref_=cm_sw_r_cp_mwn_aipsfshop_aipsfbookescape__PBB131SY1HEHXB4D7YG2_1&language=en_US" },
-    ],
-  },
-  {
-    heading: "Support",
-    links: [
-      { label: "Email", href: "mailto:highfrequencies11@gmail.com" },
-      { label: "Join the Newsletter", href: "#newsletter" },
-      { label: "Book a Call", href: "#contact" },
-    ],
-  },
-];
+import { Instagram, Mail, Music2, ShoppingBag, Youtube } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSiteSettings } from "../context/SiteSettingsContext";
+
+const iconMap = {
+  instagram: Instagram,
+  youtube: Youtube,
+  music: Music2,
+  mail: Mail,
+  "shopping-bag": ShoppingBag,
+};
+
+const FooterGroup = ({ title, links }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLinkClick = (event, href) => {
+    if (href.startsWith('#')) {
+      event.preventDefault();
+      if (location.pathname !== "/") {
+        navigate({ pathname: "/", hash: href });
+      } else {
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }
+  };
+
+  return (
+    <div className="min-w-[160px] flex-1">
+      <p className="text-sm font-semibold uppercase tracking-[0.22em] text-white/88">{title}</p>
+      <div className="mt-5 flex flex-col gap-4">
+        {links.map((link) => {
+          const isAnchorLink = link.href?.startsWith('#');
+          const LinkComponent = isAnchorLink ? 'button' : 'a';
+
+          return (
+            <LinkComponent
+              key={`${title}-${link.key}`}
+              href={!isAnchorLink ? link.href : undefined}
+              onClick={isAnchorLink ? (e) => handleLinkClick(e, link.href) : undefined}
+              target={!isAnchorLink && link.href?.startsWith("http") ? "_blank" : undefined}
+              rel={!isAnchorLink && link.href?.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="text-[1.02rem] text-white/62 transition hover:text-brand-primary-light text-left"
+            >
+              {link.label}
+            </LinkComponent>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 const Footer = () => {
+  const { settings, getLinks } = useSiteSettings();
+  const siteSettings = settings;
+  const socialLinks = getLinks("footer_social");
+
   return (
-    <footer className="bg-gray-950 py-16 text-white">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
-          <div className="max-w-sm space-y-4">
-            <span className="inline-flex items-center rounded-full border border-white/20 px-4 py-1 text-xs font-semibold uppercase tracking-[0.4em] text-white/70">
-              High Frequencies 11
-            </span>
-            <p className="text-lg text-white/70">
-              Manifestation mentorship, somatic practices, and community support for leaders building miraculous lives.
+    <footer className="relative overflow-hidden border-t border-white/8 bg-[#050608] text-white">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(45,212,191,0.08),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.02),transparent_40%)]" />
+      <div className="pointer-events-none absolute bottom-[-4rem] left-1/2 h-[20rem] w-[72rem] -translate-x-1/2 overflow-hidden text-center text-[clamp(6rem,22vw,20rem)] font-semibold uppercase tracking-[-0.08em] text-white/[0.04]">
+        {siteSettings.brand.navTitle || "NEHAL"}
+      </div>
+
+      <div className="relative mx-auto flex max-w-7xl flex-col gap-12 px-6 pb-8 pt-14">
+        <div className="flex flex-col gap-12 xl:flex-row xl:items-start xl:justify-between">
+          <div className="max-w-md">
+            <p className="text-xs font-semibold uppercase tracking-[0.34em] text-white/45">
+              {siteSettings.footer.introEyebrow}
             </p>
+            <h2 className="mt-5 text-3xl font-semibold leading-tight text-white">
+              {siteSettings.footer.introHeading}
+            </h2>
+            <p className="mt-5 max-w-sm text-base leading-relaxed text-white/58">{siteSettings.brand.footerTagline}</p>
           </div>
-          <div className="grid flex-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {footerLinks.map((group) => (
-              <div key={group.heading}>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.35em] text-white/60">
-                  {group.heading}
-                </h3>
-                <ul className="mt-4 space-y-3">
-                  {group.links.map((link) => (
-                    <li key={link.label}>
-                      <a
-                        href={link.href}
-                        className="text-base text-white/70 transition-colors hover:text-teal-200"
-                        target={link.href.startsWith("http") ? "_blank" : undefined}
-                        rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+
+          {/* <div className="flex flex-wrap gap-3">
+            {socialLinks.map((link) => {
+              const Icon = iconMap[link.icon] || Mail;
+              return (
+                <a
+                  key={link.key}
+                  href={link.href}
+                  target={link.href?.startsWith("http") ? "_blank" : undefined}
+                  rel={link.href?.startsWith("http") ? "noopener noreferrer" : undefined}
+                  aria-label={link.label}
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] text-white/72 transition hover:border-brand-primary-light hover:bg-white/[0.06] hover:text-brand-primary-light"
+                >
+                  <Icon className="h-5 w-5" />
+                </a>
+              );
+            })}
+          </div> */}
         </div>
-        <div className="mt-12 border-t border-white/10 pt-8 text-sm text-white/50">
-          © {new Date().getFullYear()} High Frequencies 11. All rights reserved. Built with love by Nehal Patel.
+
+        <div className="relative flex flex-col gap-4 border-t border-white/8 pt-6 text-sm text-white/46 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
+            <span>© {new Date().getFullYear()} {siteSettings.brand.fullTitle}.</span>
+            <a href={siteSettings.footer.termsHref} className="transition hover:text-brand-primary-light">
+              {siteSettings.footer.termsLabel}
+            </a>
+            <a href={siteSettings.footer.privacyHref} className="transition hover:text-brand-primary-light">
+              {siteSettings.footer.privacyLabel}
+            </a>
+          </div>
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-white/62">
+            <span className="h-2.5 w-2.5 rounded-full bg-brand-primary shadow-[0_0_18px_var(--site-brand-primary)]" />
+            {siteSettings.footer.statusLabel}
+          </div>
         </div>
       </div>
     </footer>

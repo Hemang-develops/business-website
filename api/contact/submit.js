@@ -78,11 +78,16 @@ module.exports = async function submitContactForm(req, res) {
         },
       }),
     });
-
-    const result = await response.json();
-
     if (!response.ok) {
-      const errorMessage = result?.message || "We couldn't deliver your message. Please try again in a few minutes.";
+      let errorMessage = "We couldn't deliver your message. Please try again in a few minutes.";
+      try {
+        const errorText = await response.text();
+        const errorJson = JSON.parse(errorText);
+        errorMessage = errorJson?.message || errorMessage;
+      } catch (e) {
+        // If not JSON, it might just be a text string
+        console.error("EmailJS Error Response:", e);
+      }
       return res.status(response.status).json({ error: errorMessage });
     }
 
@@ -90,6 +95,7 @@ module.exports = async function submitContactForm(req, res) {
       message: "Thank you for reaching out. Your message has been delivered successfully.",
     });
   } catch (error) {
+    console.error("Server API Error in submit handler:", error);
     return res.status(502).json({
       error:
         "We were unable to send your message due to a network error. Please check your connection and try again.",
